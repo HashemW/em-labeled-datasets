@@ -52,3 +52,17 @@ Deliverables are written and tested on the laptop:
 - Fields marked VERIFY in metadata.csv: macrophage-2 organism, 13156 z-step, 10982 z-steps, and 2D pixel sizes for some Zenodo sets.
 - After the cluster run, check `_status.json` in each output folder and re-submit any failed tasks.
 - Decide what to do with QuantEM (crop size / scope) given the 1.7 TB budget.
+
+## Session 3 (2026-10-12): scope change + research
+- **Scope is now labeled datasets only, with 1000^3 crops.** QuantEM is on hold. Platynereis raw crops (unlabeled) get dropped.
+- Repo: https://github.com/HashemW/em-labeled-datasets (private). Issues/to-do doc (user logs cluster problems there):
+  https://docs.google.com/document/d/1T9dvGZt-JJEoCw9-2LglqiVFU0CVZFpRuvle0pvz6pA/edit
+- 1000^3 storage estimate (from measured compression ratios): full downloads 82 GB (unchanged) + crops about 9 GB
+  (was 74 GB at 2000^3) = about 91 GB scripted; +32 GB OrgSegNet manual.
+- OpenOrganelle GT crops are scattered: a 1000^3 window covers 2-4 GT crops; covering all needs 14-19 windows per
+  cell. Window placement must be redone in `scripts/dev/build_manifest.py` (also check ASEM cell 61 ER/Golgi boxes).
+- Z-slice similarity (`research/z_slice_similarity.py`, results `.jsonl`; 32x512x512 per crop, EMPIAR-13420 SBF
+  not measured because EBI kept dropping connections): no duplicate slices; r(z,z+1) about the same as r(xy,+1px);
+  correlation halves at about 25-50 nm for FIB-SEM; FAST-EM 100 nm sections are nearly uncorrelated.
+  Recommendation: download full z, apply stride = round(target_nm / z_nm) (target about 25-30 nm) in the data loader.
+- Code changes NOT done yet: 1000^3 crop size, re-placed windows, dropping Platynereis crops.
