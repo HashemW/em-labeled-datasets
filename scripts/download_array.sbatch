@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=em-fetch
-#SBATCH --array=0-22%4            # one task per dataset in datasets.json (python fetch_em.py --list); max 4 at once
+#SBATCH --array=0-20%4            # one task per dataset in datasets.json (python fetch_em.py --list); max 4 at once
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
-#SBATCH --time=2-00:00:00         # the EMPIAR-10791 liver crops are the slowest (~100 GB transfer each)
+#SBATCH --time=2-00:00:00         # EMPIAR-10791 liver crops and the 49 OpenOrganelle windows are the slowest
 #SBATCH --output=logs/%x_%A_%a.out
 #SBATCH --error=logs/%x_%A_%a.out
 # Adjust --partition / --account to your cluster, e.g.:
@@ -13,8 +13,8 @@
 # Usage (from this directory):
 #   mkdir -p logs
 #   OUT=/path/to/big/storage/em_datasets sbatch download_array.sbatch
-#   # re-run only some datasets, e.g. 17 and 19:
-#   OUT=/path/... sbatch --array=17,19 download_array.sbatch
+#   # re-run only some datasets, e.g. 16 and 18:
+#   OUT=/path/... sbatch --array=16,18 download_array.sbatch
 #
 # Every task is resumable: re-submitting skips completed files / crop slabs.
 set -euo pipefail

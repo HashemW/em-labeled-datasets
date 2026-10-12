@@ -6,3 +6,5 @@ numcodecs>=0.11
 tifffile>=2023.7.10
 imagecodecs>=2023.3.16   # LZW-compressed TIFF slices (EMPIAR-13420)
 gdown>=5.2          # DeepPI-EM (Google Drive)
+h5py>=3.8           # inventory.py: Platynereis HDF5 training data
+pillow>=9.5         # inventory.py: PNG/JPG headers

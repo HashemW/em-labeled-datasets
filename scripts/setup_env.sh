@@ -16,5 +16,5 @@ EOF
 "$PY" -m venv "$ENV_DIR"
 "$ENV_DIR/bin/python" -m pip install --upgrade pip
 "$ENV_DIR/bin/python" -m pip install -r "$HERE/requirements.txt"
-"$ENV_DIR/bin/python" -c "import numpy, requests, zarr, numcodecs, tifffile, imagecodecs, gdown; print('zarr', zarr.__version__, '- environment OK')"
+"$ENV_DIR/bin/python" -c "import numpy, requests, zarr, numcodecs, tifffile, imagecodecs, gdown, h5py, PIL; print('zarr', zarr.__version__, '- environment OK')"
 echo "Environment ready: $ENV_DIR"

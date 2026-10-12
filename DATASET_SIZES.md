@@ -1,5 +1,9 @@
 # Dataset sizes: full totals vs. what the download plan stores
 
+> **Superseded plan (2026-10-12).** This report describes the earlier 2000³ plan. The current plan is labeled data
+> only with crops of at most 1000³ (≈ 125 GB stored, ≈ 330 GB transferred, excluding OrgSegNet): see the table in
+> `scripts/README.md`, and `planned_items.csv` for every item. The "at source" totals below are still correct.
+
 Measured on 2026-10-08. All sizes are decimal (1 GB = 10^9 bytes, 1 TB = 10^12 bytes). The machine-readable version, with per-array crop detail, is `dataset_sizes.csv`.
 
 ## Bottom line

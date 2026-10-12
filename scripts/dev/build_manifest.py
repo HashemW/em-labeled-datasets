@@ -1,11 +1,21 @@
 #!/usr/bin/env python3
 """Regenerate ../datasets.json. Developer tool: queries Zenodo/figshare/4TU/S3 for current file lists + md5s.
 
-Crop positions were chosen by analysis on 2026-10-08 (see README.md, "How crop positions were chosen") and are
-hard-coded here so the manifest is deterministic.
+Crops are at most W^3 = 1000^3 voxels (decision 2026-10-12; was 2000^3). Placement (see README.md, "How crop
+positions were chosen"):
+* label boxes (OpenOrganelle GT crops): enough windows to contain every box completely, computed here from the
+  bucket's GT metadata with a deterministic greedy cover;
+* sparse painted labels (ASEM): the volume is tiled into equal tiles <= W, and every tile holding labeled
+  chunks is kept (labeled = stored chunk larger than an all-zero chunk);
+* whole-volume labels (EMPIAR-10791, EMPIAR-13420, FAST-EM GT region): one window per volume, hard-coded
+  from the label-density analysis of 2026-10-12.
 """
+import itertools
 import json
 import os
+import re
+import xml.etree.ElementTree as ET
+
 import requests
 
 S = requests.Session()
@@ -13,10 +23,61 @@ EMPIAR = "https://ftp.ebi.ac.uk/empiar/world_availability/"
 COSEM = "https://janelia-cosem-datasets.s3.amazonaws.com/"
 ASEM = "https://asem-project.s3.amazonaws.com/datasets/"
 WK = "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/"
-PLATY = "https://buckets.embl.de/platybrowser-n5-generic/platybrowser/rawdata/sbem-6dpf-1-whole-raw.n5/setup0/timepoint0/s0"
 L10791 = (EMPIAR + "10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20"
           "controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/")
 BIG = [10 ** 6] * 3  # "whole array" (clipped to the source extent)
+W = 1000  # crop edge in voxels
+
+
+def s3_list(bucket, prefix, delimiter=None):
+    """[(key, size)] and [common prefixes] under prefix in a public S3 bucket."""
+    keys, prefixes, tok = [], [], None
+    while True:
+        p = {"list-type": "2", "prefix": prefix, "max-keys": "1000"}
+        if delimiter:
+            p["delimiter"] = delimiter
+        if tok:
+            p["continuation-token"] = tok
+        r = S.get(f"https://{bucket}.s3.amazonaws.com/", params=p, timeout=120)
+        r.raise_for_status()
+        t = ET.fromstring(r.content)
+        ns = {"s": t.tag.split("}")[0][1:]}
+        keys += [(c.find("s:Key", ns).text, int(c.find("s:Size", ns).text)) for c in t.findall("s:Contents", ns)]
+        prefixes += [c.find("s:Prefix", ns).text for c in t.findall("s:CommonPrefixes", ns)]
+        if t.find("s:IsTruncated", ns).text != "true":
+            return keys, prefixes
+        tok = t.find("s:NextContinuationToken", ns).text
+
+
+def greedy_windows(boxes, shape, w=W):
+    """Cover boxes {name: (start_zyx, size_zyx)} with windows of edge <= w inside shape; each box ends up fully
+    inside one window. Candidates are windows aligned to a box corner; pick the one holding most uncovered boxes,
+    ties broken by position, until all are covered. Returns [(offset_zyx, [box names])]."""
+    ws = [min(w, n) for n in shape]
+    cands = set()
+    for st, sz in boxes.values():
+        for corner in itertools.product((0, 1), repeat=3):
+            cands.add(tuple(max(0, min(n - wa, s if c == 0 else s + z - wa))
+                            for s, z, c, wa, n in zip(st, sz, corner, ws, shape)))
+
+    def inside(o, b):
+        return all(o[a] <= b[0][a] and b[0][a] + b[1][a] <= o[a] + ws[a] for a in range(3))
+    rem, out = set(boxes), []
+    while rem:
+        best = max(sorted(cands), key=lambda o: sum(inside(o, boxes[n]) for n in rem))
+        got = sorted(n for n in rem if inside(best, boxes[n]))
+        if not got:
+            raise RuntimeError(f"boxes {sorted(rem)} do not fit in a {ws} window")
+        out.append((list(best), got))
+        rem -= set(got)
+    return out
+
+
+def tiles(n, w=W):
+    """Split [0, n) into equal parts of length <= w: [(start, length)]."""
+    k = -(-n // w)
+    edges = [round(i * n / k) for i in range(k + 1)]
+    return [(a, b - a) for a, b in zip(edges, edges[1:])]
 
 
 def zenodo(rec, dest=""):
@@ -35,23 +96,40 @@ def fourtu(uuid):
     return [{"url": f["download_url"], "dest": f["name"], "size": f["size"], "md5": f["computed_md5"]} for f in d]
 
 
-def cosem_crop(ds, offset, size, gt_crops):
+def cosem_crops(ds):
+    """One W^3 window per group of GT crops, so that every GT crop of the volume is downloaded with its raw."""
     base = f"{COSEM}{ds}/{ds}.zarr/recon-1/"
     em = S.get(base + "em/fibsem-uint8/.zattrs").json()["multiscales"][0]["datasets"]
     vox = [d for d in em if d["path"] == "s0"][0]["coordinateTransformations"][0]["scale"]
-    srcs = [{"name": "raw", "type": "zarr2", "url": base + "em/fibsem-uint8/s0", "voxel_nm_zyx": vox}]
-    for c in gt_crops:
+    shape = S.get(base + "em/fibsem-uint8/s0/.zarray").json()["shape"]
+    _, prefixes = s3_list("janelia-cosem-datasets", f"{ds}/{ds}.zarr/recon-1/labels/groundtruth/", "/")
+    gt, boxes = {}, {}
+    for p in sorted(prefixes, key=lambda p: int(re.search(r"crop(\d+)/$", p).group(1))):
+        c = p.rstrip("/").rsplit("/", 1)[1]
         ms = S.get(f"{base}labels/groundtruth/{c}/all/.zattrs").json()["multiscales"][0]["datasets"]
         ct = {d["path"]: d["coordinateTransformations"] for d in ms}
-        for lvl, tag in (("s1", ""), ("s0", "_s0")):
-            sc, tr = ct[lvl][0]["scale"], ct[lvl][1]["translation"]
-            srcs.append({"name": f"labels/gt_{c}{tag}", "type": "zarr2", "url": f"{base}labels/groundtruth/{c}/all/{lvl}",
-                         "offset_zyx": [0, 0, 0], "size_zyx": BIG, "voxel_nm_zyx": sc,
-                         "world_offset_vox_zyx": [round(t / s, 3) for t, s in zip(tr, sc)],
-                         "note": ("dense multi-class GT ('all'), aligned with raw (EM s0 grid)" if lvl == "s1" else
-                                  "dense multi-class GT at native annotation resolution (2x finer than raw)")})
-    return {"name": f"{ds}_crop", "offset_zyx": offset, "size_zyx": size, "voxel_nm_zyx": vox, "sources": srcs,
-            "note": f"2000^3 window chosen to contain GT crops {gt_crops} completely"}
+        gt[c] = ct
+        sc, tr = ct["s1"][0]["scale"], ct["s1"][1]["translation"]
+        if [round(s, 3) for s in sc] != [round(v, 3) for v in vox]:
+            raise RuntimeError(f"{ds}/{c}: s1 scale {sc} is not the raw grid {vox}")
+        n1 = S.get(f"{base}labels/groundtruth/{c}/all/s1/.zarray").json()["shape"]
+        boxes[c] = ([round(t / s) for t, s in zip(tr, sc)], n1)
+    crops = []
+    for i, (off, names) in enumerate(greedy_windows(boxes, shape), 1):
+        srcs = [{"name": "raw", "type": "zarr2", "url": base + "em/fibsem-uint8/s0", "voxel_nm_zyx": vox}]
+        for c in names:
+            for lvl, tag in (("s1", ""), ("s0", "_s0")):
+                sc, tr = gt[c][lvl][0]["scale"], gt[c][lvl][1]["translation"]
+                srcs.append({"name": f"labels/gt_{c}{tag}", "type": "zarr2",
+                             "url": f"{base}labels/groundtruth/{c}/all/{lvl}",
+                             "offset_zyx": [0, 0, 0], "size_zyx": BIG, "voxel_nm_zyx": sc,
+                             "world_offset_vox_zyx": [round(t / s, 3) for t, s in zip(tr, sc)],
+                             "note": ("dense multi-class GT ('all'), aligned with raw (EM s0 grid)" if lvl == "s1" else
+                                      "dense multi-class GT at native annotation resolution (2x finer than raw)")})
+        crops.append({"name": f"{ds}_w{i:02d}", "offset_zyx": off, "size_zyx": [W, W, W], "voxel_nm_zyx": vox,
+                      "sources": srcs, "gt_crops": names,
+                      "note": f"window {i} of the greedy cover of all {len(boxes)} GT crops; holds {names} completely"})
+    return crops
 
 
 def tiff_stack(name, template, first, count, vox, **kw):
@@ -69,9 +147,9 @@ def liver(spec_id, label, raw_tpl, raw_first, count, zips, offset, extra_num_reg
         if num_regex:
             s["num_regex"] = num_regex
         srcs.append(s)
-    return {"name": f"{spec_id}_{label}_crop", "offset_zyx": offset, "size_zyx": [2000, 2000, 2000],
+    return {"name": f"{spec_id}_{label}_crop", "offset_zyx": offset, "size_zyx": [W, W, W],
             "voxel_nm_zyx": [8, 8, 8], "sources": srcs,
-            "note": ("centred in the volume; labels are whole-volume binary masks (0/255), one array per class, "
+            "note": ("centre of the former 2000^3 window (labels cover the whole volume); labels are whole-volume binary masks (0/255), one array per class, "
                      "except plasma_membrane = cell instance ids. Obese1 er/LD/mito/nuclear-membrane slices are "
                      "10195x9110 vs raw 10200x9112 (top-left aligned; verified by overlay)")}
 
@@ -111,8 +189,7 @@ def build():
               "files": zenodo(17068504)})
     D.append({"id": "platynereis-zenodo", "title": "Platynereis CNN training data (Zenodo 3675220)", "kind": "files",
               "files": zenodo(3675220)})
-    D.append({"id": "fastem-4tu", "title": "FAST-EM MCF-7 sample (4TU, raw tiles, unlabeled)", "kind": "files",
-              "files": fourtu("bf3f2b23-2328-4d81-a0f4-05fdb33117d7")})
+    # fastem-4tu (4TU raw tiles, unlabeled) dropped 2026-10-12: labeled datasets only.
     D.append({"id": "platelet-guay", "title": "Guay et al. platelet SBF-SEM (dense-cell)", "kind": "files",
               "files": [{"url": "https://www.dropbox.com/s/68yclbraqq1diza/platelet_data_1219.zip?dl=1",
                          "dest": "platelet_data_1219.zip"}]})
@@ -146,31 +223,27 @@ vacuole, nucleus. 2D data, so no crops are needed.
 """})
 
     # ---------------------------------------------------------------- crops: OpenOrganelle
-    D.append({"id": "openorganelle-crops", "title": "OpenOrganelle/COSEM: 3 crops (hela-2, macrophage-2, jurkat-1) + GT",
-              "kind": "crops", "crops": [
-                  cosem_crop("jrc_hela-2", [1249, 0, 2140], [2000, 2000, 2000],
-                             ["crop113", "crop23", "crop6", "crop8", "crop9", "crop96"]),
-                  cosem_crop("jrc_macrophage-2", [4011, 0, 1340], [2000, 2000, 2000],
-                             ["crop110", "crop40", "crop73", "crop89"]),
-                  cosem_crop("jrc_jurkat-1", [2300, 0, 4493], [2000, 2000, 2000],
-                             ["crop107", "crop126", "crop180", "crop182", "crop71", "crop91"])]})
+    D.append({"id": "openorganelle-crops",
+              "title": "OpenOrganelle/COSEM: 1000^3 windows covering every GT crop of hela-2, macrophage-2, jurkat-1",
+              "kind": "crops",
+              "crops": cosem_crops("jrc_hela-2") + cosem_crops("jrc_macrophage-2") + cosem_crops("jrc_jurkat-1")})
 
     # ---------------------------------------------------------------- crops: EMPIAR-13420 (37.9 GB)
     e = EMPIAR + "13420/data/"
     D.append({"id": "empiar-13420-crops", "title": "EMPIAR-13420 macrophage/A431: 3 crops (2 FIB-SEM, 1 SBF-SEM)",
               "kind": "crops", "extra_files": [{"url": e + "README", "dest": "README"}], "crops": [
-                  {"name": "FIB_240729_HumanMP_TNFa_1U_crop", "offset_zyx": [0, 0, 550], "size_zyx": [2000, 2000, 2000],
+                  {"name": "FIB_240729_HumanMP_TNFa_1U_crop", "offset_zyx": [225, 0, 950], "size_zyx": [W, W, W],
                    "voxel_nm_zyx": [12, 6, 6], "labels_note": "1 nucleus, 2 lipid droplets",
                    "sources": [
                        tiff_stack("raw", e + "FIB/240729_HumanMP_TNFa_1U/dataset/TIFs/240729_HumanMP_TNFa_1U_{:04d}.tif", 1, 2719, [12, 6, 6]),
                        tiff_stack("labels/nucleus_ld", e + "FIB/240729_HumanMP_TNFa_1U/labels/Labels_NucleusLDs_TIFs/Labels_240729_HumanMP_TNFa_1U_nucleus_LD_{:04d}.tif", 1, 2719, [12, 6, 6])]},
-                  {"name": "FIB_240801_HumanMP_Control_crop", "offset_zyx": [800, 0, 1300], "size_zyx": [2000, 2000, 2000],
+                  {"name": "FIB_240801_HumanMP_Control_crop", "offset_zyx": [1400, 0, 1850], "size_zyx": [W, W, W],
                    "voxel_nm_zyx": [12, 6, 6],
                    "labels_note": "1 mitochondria, 2 Golgi, 3 ER, 4 nucleus, 5 lipid droplets, 6 ER of other cells",
                    "sources": [
                        tiff_stack("raw", e + "FIB/240801_HumanMP_Control/dataset/TIFs/240801_HumanMP_Control_{:04d}.tif", 1, 2888, [12, 6, 6]),
                        tiff_stack("labels/combined", e + "FIB/240801_HumanMP_Control/labels/Labels_Combined_model_TIFs/Labels_240801_HumanMP_Control_combined_{:04d}.tif", 1, 2888, [12, 6, 6])]},
-                  {"name": "SBF_240424_Microphages_no_load_crop", "offset_zyx": [0, 2600, 1900], "size_zyx": [2000, 2000, 2000],
+                  {"name": "SBF_240424_Microphages_no_load_crop", "offset_zyx": [0, 4350, 2000], "size_zyx": [W, W, W],
                    "voxel_nm_zyx": [30, 10, 10], "labels_note": "1 nuclei, 2 LDs below nuclei, 3 LDs above nuclei",
                    "sources": [
                        tiff_stack("raw", e + "SBFSEM/240424_Microphages_no_load/dataset/TIFs/240424_Microphages_no_load_R02_{:03d}.tif", 1, 257, [30, 10, 10]),
@@ -194,11 +267,11 @@ vacuole, nucleus. 2D data, so no crops are needed.
         "nuclear_membrane": ("nuclear%20membrane.zip", None), "plasma_membrane": ("Plasma%20membrane.zip", None)})
     crops = [
         liver("6461", "lean", L10791 + "6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Raw/Gunes_WT1_8x8x8nm_3MHz.{:04d}.tif",
-              0, 5638, lean, [1819, 3000, 5000]),
+              0, 5638, lean, [2319, 3500, 5500]),
         liver("6464", "obese1", L10791 + "6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Raw%20reupload/6464%20Ob%20Fed%20Raw%20with%20All_T001_Z{:03d}_C09.tif",
-              1, 7896, ob1, [2948, 4100, 3556]),
+              1, 7896, ob1, [3448, 4600, 4056]),
         liver("9430", "obese2", L10791 + "9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Raw/9430%20raw/9430%20Ob%20Fed%20Raw_T001_Z{:03d}_C07.tif",
-              1, 8501, ob2, [3250, 3025, 3000]),
+              1, 8501, ob2, [3750, 3525, 3500]),
     ]
     # ER sheets/tubules member names of 6464 encode z as _Z001_ (1-based)
     for s in crops[1]["sources"]:
@@ -211,35 +284,80 @@ vacuole, nucleus. 2D data, so no crops are needed.
                                "dest": "Segmentation_Evaluation/Manual annotation - Prediction - Raw Slices.zip"}]})
 
     # ---------------------------------------------------------------- crops: ASEM
-    def asem(cell, offset, labels, raw_off_vox, small=()):
+    def asem_labeled_chunks(cell, cls):
+        """Chunk boxes [(start_zyx, size_zyx)] of a label array that hold labels. Every chunk is stored, so an
+        all-zero chunk is recognised by its size (the smallest object of the array)."""
+        pre = f"datasets/{cell}/{cell}.zarr/volumes/labels/{cls}/"
+        za = S.get(f"{ASEM}{cell}/{cell}.zarr/volumes/labels/{cls}/.zarray").json()
+        keys, _ = s3_list("asem-project", pre)
+        ch = [(list(map(int, re.split(r"[./]", k[len(pre):]))), n) for k, n in keys
+              if re.fullmatch(r"\d+([./]\d+){2}", k[len(pre):])]
+        empty = min(n for _, n in ch)
+        c = za["chunks"]
+        return za["shape"], [([i * w for i, w in zip(idx, c)], c) for idx, n in ch if n > empty]
+
+    def asem_cell(cell, labels, raw_off_vox, small=()):
         base = f"{ASEM}{cell}/{cell}.zarr/volumes/"
-        srcs = [{"name": "raw", "type": "zarr2", "url": base + "raw", "voxel_nm_zyx": [5, 5, 5],
-                 "world_offset_vox_zyx": raw_off_vox}]
-        for l in labels:
-            srcs.append({"name": f"labels/{l}", "type": "zarr2", "url": base + f"labels/{l}", "voxel_nm_zyx": [5, 5, 5],
-                         "world_offset_vox_zyx": raw_off_vox, "note": "instance labels, full-size array (sparse)"})
-        for l, woff in small:
-            srcs.append({"name": f"labels/{l}", "type": "zarr2", "url": base + f"labels/{l}", "voxel_nm_zyx": [5, 5, 5],
-                         "offset_zyx": [0, 0, 0], "size_zyx": BIG, "world_offset_vox_zyx": woff,
-                         "note": "small annotated block; position given by world_offset (same world grid as raw)"})
-        return {"name": f"cell_{cell}_crop", "offset_zyx": offset, "size_zyx": [2000, 2000, 2000],
-                "voxel_nm_zyx": [5, 5, 5], "sources": srcs,
-                "note": "window placed over the annotated region (from non-empty label chunks)"}
-    D.append({"id": "asem-crops", "title": "ASEM / incasem FIB-SEM: 3 crops (cells 46, 58, 61) + labels",
+        lab = {l: asem_labeled_chunks(cell, l) for l in labels}
+        shape = next(iter(lab.values()))[0]
+        allch = [b for _, bs in lab.values() for b in bs]
+        spans = []  # per axis: one W span if all labels fit in it, else equal tiles <= W
+        for a in range(3):
+            lo = min(st[a] for st, _ in allch)
+            hi = min(shape[a], max(st[a] + sz[a] for st, sz in allch))
+            if hi - lo <= W or shape[a] <= W:
+                st = max(0, min(lo, shape[a] - W))
+                spans.append([(st, min(W, shape[a]))])
+            else:
+                spans.append(tiles(shape[a]))
+
+        def hits(t, bs):
+            return any(all(st[a] < t[a][0] + t[a][1] and t[a][0] < st[a] + sz[a] for a in range(3)) for st, sz in bs)
+        crops = []
+        for t in itertools.product(*spans):
+            have = [l for l in labels if hits(t, lab[l][1])]
+            if not have:
+                continue
+            srcs = [{"name": "raw", "type": "zarr2", "url": base + "raw", "voxel_nm_zyx": [5, 5, 5],
+                     "world_offset_vox_zyx": raw_off_vox}]
+            srcs += [{"name": f"labels/{l}", "type": "zarr2", "url": base + f"labels/{l}", "voxel_nm_zyx": [5, 5, 5],
+                      "world_offset_vox_zyx": raw_off_vox,
+                      "note": "instance labels, sparse annotation (0 = not annotated, not necessarily background)"}
+                     for l in have]
+            crops.append({"name": f"cell_{cell}_t{len(crops) + 1:02d}", "offset_zyx": [a for a, _ in t],
+                          "size_zyx": [n for _, n in t], "voxel_nm_zyx": [5, 5, 5], "sources": srcs,
+                          "labels_present": have,
+                          "note": f"tile of cell {cell} holding labeled chunks of {have}"})
+        for l, woff, bshape in small:  # small annotated blocks: one W^3 window centred on the block
+            rel = [w - r for w, r in zip(woff, raw_off_vox)]  # block start in raw array coordinates
+            rshape = S.get(base + "raw/.zarray").json()["shape"]
+            off = [max(0, min(n - min(W, n), s + b // 2 - W // 2)) for s, b, n in zip(rel, bshape, rshape)]
+            crops.append({"name": f"cell_{cell}_{l}_block", "offset_zyx": off, "size_zyx": [W, W, W],
+                          "voxel_nm_zyx": [5, 5, 5], "labels_present": [l],
+                          "sources": [{"name": "raw", "type": "zarr2", "url": base + "raw", "voxel_nm_zyx": [5, 5, 5],
+                                       "world_offset_vox_zyx": raw_off_vox},
+                                      {"name": f"labels/{l}", "type": "zarr2", "url": base + f"labels/{l}",
+                                       "voxel_nm_zyx": [5, 5, 5], "offset_zyx": [0, 0, 0], "size_zyx": BIG,
+                                       "world_offset_vox_zyx": woff,
+                                       "note": "small annotated block; position given by world_offset (same world grid as raw)"}],
+                          "note": f"window centred on the small {l} annotation block of cell {cell}"})
+        return crops
+    D.append({"id": "asem-crops", "title": "ASEM / incasem FIB-SEM: tiles over all labeled regions (cells 46, 58, 61)",
               "kind": "crops",
               "extra_files": [{"url": "https://asem-project.s3.amazonaws.com/README.md", "dest": "README.md"},
                               {"url": "https://asem-project.s3.amazonaws.com/datasets_info.xlsx", "dest": "datasets_info.xlsx"}],
-              "crops": [asem("46", [0, 0, 1000], ["mito", "er", "golgi"], [0, 0, 0]),
-                        asem("58", [0, 0, 800], ["mito", "er", "golgi"], [0, 0, 0]),
-                        asem("61", [0, 0, 2300], ["mito"], [0, 1750, 2900],
-                             small=[("er", [1351, 2281, 6748]), ("golgi", [1000, 2160, 5497])])]})
+              "crops": (asem_cell("46", ["mito", "er", "golgi"], [0, 0, 0]) +
+                        asem_cell("58", ["mito", "er", "golgi"], [0, 0, 0]) +
+                        asem_cell("61", ["mito"], [0, 1750, 2900],
+                                  small=[("er", [1351, 2281, 6748], [204, 204, 400]),
+                                         ("golgi", [1000, 2160, 5497], [210, 283, 371])]))})
 
     # ---------------------------------------------------------------- crops: FAST-EM WebKnossos
     def fastem(i, y, x):
         def wk(name, layer, note):
             return {"name": name, "type": "zarr2", "axes": "cxyz", "url": f"{WK}{layer}/1-1-1/",
                     "voxel_nm_zyx": [100, 4, 4], "note": note}
-        return {"name": f"MCF7_UAc_crop{i}", "offset_zyx": [0, y, x], "size_zyx": [2000, 2000, 2000],
+        return {"name": f"MCF7_UAc_crop{i}", "offset_zyx": [0, y + 500, x + 500], "size_zyx": [W, W, W],
                 "voxel_nm_zyx": [100, 4, 4], "note": "inside the Mito_GT bounding box; 54 sections thick",
                 "sources": [wk("raw", "EM", "EM layer as acquired"),
                             wk("labels/mito_gt", "Mito_GT_EM", "mito instance GT on 'raw'"),
@@ -248,14 +366,8 @@ vacuole, nucleus. 2D data, so no crops are needed.
     D.append({"id": "fastem-crops", "title": "FAST-EM MCF-7 WebKnossos volume: 3 crops with mito GT", "kind": "crops",
               "crops": [fastem(1, 52496, 27312), fastem(2, 58112, 25776), fastem(3, 54064, 25312)]})
 
-    # ---------------------------------------------------------------- crops: Platynereis raw
-    D.append({"id": "platynereis-crops", "title": "Platynereis 6dpf whole-body SBEM raw: 3 crops (unlabeled)",
-              "kind": "crops", "crops": [
-                  {"name": f"sbem-6dpf-1_crop{i}", "offset_zyx": o, "size_zyx": [2000, 2000, 2000],
-                   "voxel_nm_zyx": [25, 10, 10], "note": "placed inside the animal (tissue mask from s6)",
-                   "sources": [{"name": "raw", "type": "n5", "url": PLATY, "voxel_nm_zyx": [25, 10, 10]}]}
-                  for i, o in enumerate([[2112, 14016, 19264], [7040, 14464, 13248], [8448, 12032, 10688]], 1)]})
-    return {"generated": "2026-10-08", "datasets": D}
+    # Platynereis raw crops (unlabeled) dropped 2026-10-12: labeled datasets only.
+    return {"generated": "2026-10-12", "crop_edge": W, "datasets": D}
 
 
 if __name__ == "__main__":

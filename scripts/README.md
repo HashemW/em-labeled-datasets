@@ -1,12 +1,16 @@
 # EM organelle datasets: download / crop scripts
 
-Downloads the 20 public datasets listed in `../sources.csv` (catalogued in `../metadata.csv`) onto the cluster.
+Downloads the **labeled** public datasets listed in `../sources.csv` (catalogued in `../metadata.csv`) onto the
+cluster. Scope since 2026-10-12: labeled data only (the unlabeled Platynereis raw crops and the unlabeled FAST-EM
+4TU tiles are no longer downloaded).
 
 * Datasets **≤ 30 GB** are downloaded in full, with md5 verification where the repository publishes one.
-* Datasets **> 30 GB** get **3 crops of 2000×2000×2000 voxels**. A crop is clipped where the volume is thinner,
-  e.g. FAST-EM is only 54 sections. Crops are written as **OME-Zarr** (v0.4, zarr format 2, Blosc-zstd,
-  chunks 64×256×256), with labels in the same file, plus a **JSON sidecar** per crop (source URLs, offsets,
-  voxel size, dtype, missing slices).
+* Datasets **> 30 GB** are cut into crops of **at most 1000×1000×1000 voxels** placed over the labels (see "How
+  crop positions were chosen"). A crop is clipped where the volume is thinner, e.g. FAST-EM is only 54 sections.
+  Crops are written as **OME-Zarr** (v0.4, zarr format 2, Blosc-zstd, chunks 64×256×256), with labels in the
+  same file, plus a **JSON sidecar** per crop (source URLs, offsets, voxel size, dtype, missing slices).
+* `inventory.py` writes a CSV with one row per downloaded item and all its statistics (shape, voxel size and
+  where it came from, physical size, dtype, label classes/objects/fraction, intensity range). See "Inventory".
 
 ## Files
 
@@ -15,6 +19,7 @@ Downloads the 20 public datasets listed in `../sources.csv` (catalogued in `../m
 | `fetch_em.py` | the downloader (one file, no project imports) |
 | `datasets.json` | manifest: one entry per job, i.e. per dataset or per dataset part |
 | `download_array.sbatch` | SLURM job array, one task per manifest entry |
+| `inventory.py`, `inventory.sbatch` | CSV of every downloaded item with its statistics (run after the download) |
 | `setup_env.sh`, `requirements.txt` | creates `./venv` |
 | `dev/build_manifest.py` | regenerates `datasets.json` (queries Zenodo/figshare/4TU for md5s) |
 | `dev/build_metadata.py` | regenerates `../metadata.csv` |
@@ -38,8 +43,10 @@ From your own computer (replace user/host/path):
 rsync -av scripts/ myuser@cluster.example.org:~/em_fetch/
 # or:  scp -r scripts myuser@cluster.example.org:~/em_fetch
 ```
-Copy the whole folder: `fetch_em.py`, `datasets.json`, `download_array.sbatch`, `setup_env.sh`,
-`requirements.txt` (and `dev/`, which is optional). Then log in and `cd ~/em_fetch`.
+Copy the whole folder: `fetch_em.py`, `datasets.json`, `download_array.sbatch`, `inventory.py`,
+`inventory.sbatch`, `setup_env.sh`, `requirements.txt` (and `dev/`, which is optional). Then log in and
+`cd ~/em_fetch`. Or clone the repository: `git clone https://github.com/HashemW/em-labeled-datasets.git` (it is
+private: run `gh auth login` or use a personal access token first) and `cd em-labeled-datasets/scripts`.
 
 If you copied from Windows and a script fails with `$'\r': command not found`, fix the line endings with
 `sed -i 's/\r$//' *.sh *.sbatch`. The files are shipped with Unix line endings, so this should not happen.
@@ -80,15 +87,14 @@ The script ends with `environment OK` and the zarr version.
 
 ### Step 4: check the installation
 ```bash
-./venv/bin/python fetch_em.py --list          # should print 23 numbered datasets (0-22)
+./venv/bin/python fetch_em.py --list          # should print 21 numbered datasets (0-20)
 ```
 Then run the **smoke test**. It touches every download route with tiny reads (64³ crops, the first MiB of big
 files, folder listings), writes well under 1 GB, and takes 15–30 minutes:
 ```bash
 ./venv/bin/python fetch_em.py --out /scratch/$USER/em_test --test
 ```
-It ends with a summary table. Every line should be `OK`, with two expected exceptions:
-`orgsegnet OK (MANUAL)`, and `fastem-4tu FAILED` while 4TU is down for maintenance. Use a **different**
+It ends with a summary table. Every line should be `OK`; `orgsegnet` shows `OK (MANUAL)`. Use a **different**
 `--out` for the test than for the real run; the script refuses to let a test overwrite real crops.
 Delete the test folder afterwards.
 
@@ -99,14 +105,14 @@ If the login node kills long processes, run the smoke test as a job instead:
 Edit the header of `download_array.sbatch`:
 * `--partition` / `--account`: uncomment and set them if your cluster requires them. If there is a
   data-transfer partition, use it.
-* `--time`: 2 days by default. Task 19 (EMPIAR-10791 liver crops) is the longest; give it more if your
-  cluster's network is slow.
-* `--array=0-22%4`: `%4` = at most 4 downloads at once. That is polite to the servers; raise it if you like.
+* `--time`: 2 days by default. Task 18 (EMPIAR-10791 liver crops) and task 16 (49 OpenOrganelle windows) are the
+  longest; give them more if your cluster's network is slow.
+* `--array=0-20%4`: `%4` = at most 4 downloads at once. That is polite to the servers; raise it if you like.
 * `--mem=32G`, `--cpus-per-task=8`: enough for all tasks.
 
 ### Step 6: choose the output location and submit
-Choose a filesystem with enough **quota** for everything you will keep. The default plan stores **≈ 157 GB**
-(+32 GB if you add OrgSegNet by hand); see `../DATASET_SIZES.md`, and leave ~20–30 % headroom. Project or scratch space is usually right; home usually is not. Check free space
+Choose a filesystem with enough **quota** for everything you will keep. The plan stores **≈ 125 GB**
+(+32 GB if you add OrgSegNet by hand; table below), and leave ~20–30 % headroom. Project or scratch space is usually right; home usually is not. Check free space
 with `df -h /path` or your site's quota command.
 ```bash
 cd ~/em_fetch
@@ -128,18 +134,38 @@ A task that ends `FAILED` in `sacct` has the reason in its log and in `_status.j
 Most failures are temporary server problems. **Re-submit just those tasks**; everything already done is
 skipped and partial files and crops resume:
 ```bash
-OUT=/project/mylab/em_datasets sbatch --array=12,19 download_array.sbatch
+OUT=/project/mylab/em_datasets sbatch --array=14,18 download_array.sbatch
 ```
 To run a single dataset without SLURM (e.g. on the transfer node):
 `./venv/bin/python fetch_em.py --out $OUT --only empiar-12885`
 
 After a successful run, the one manual dataset (OrgSegNet) is described in `$OUT/orgsegnet/MANUAL_DOWNLOAD.txt`.
 
+## Inventory (the "exactly what we have" CSV)
+
+After all tasks are `COMPLETED`, run:
+```bash
+OUT=/project/mylab/em_datasets sbatch inventory.sbatch      # writes $OUT/items.csv (hours: reads everything)
+```
+or directly: `./venv/bin/python inventory.py --out $OUT --csv $OUT/items.csv` (`--only <ids>` for a subset).
+One row per item: a crop array, a 3D file (NIfTI, multi-page TIFF, HDF5, N5, Amira), a numbered TIFF slice series
+(one volume), a folder of 2D images, or a folder of Labelme polygon files. Columns include the region taken
+(crop offset or slice range), shape z/y/x (min–max for image sets), dtype, voxel size z/y/x in nm with
+`voxel_source` (file header, repository metadata, or paper) and the raw `voxel_in_header`, physical size in µm,
+bytes on disk, label classes / number of label values / number of objects / labeled fraction, intensity
+min/max/mean/std, imaging, organism, cell type, and notes (e.g. label shape differs from raw, missing slices).
+`n_objects` = number of distinct nonzero label values: the instance count for instance labels (e.g. MitoEM),
+the class count for semantic masks (a binary mask gives 1), and the polygon count for Labelme. Connected
+components are not counted. `labeled_fraction` = share of voxels that are nonzero. `role` is raw / label /
+prediction / weights (training weight maps) / other.
+
+`../planned_items.csv` is the same table made **before** downloading (`inventory.py --remote`): it reads file
+headers over HTTP, samples large 2D image sets, and leaves label/intensity statistics empty.
+
 ### Troubleshooting
 | symptom | cause / fix |
 |---|---|
-| `fastem-4tu` fails with `too many 503 error responses` | 4TU storage maintenance. Re-submit task 12 later. |
-| `deeppi-em` fails mentioning quota/permission | Google Drive rate limit. Re-submit task 15 after a few hours. |
+| `deeppi-em` fails mentioning quota/permission | Google Drive rate limit. Re-submit task 14 after a few hours. |
 | log shows `FTP cross-check unavailable` | Port 21 is blocked on the node. Harmless; HTTPS gap-probing still runs. |
 | log shows `integrity: ... differed between reads` | A corrupted transfer was caught and replaced. Nothing to do. |
 | `gap in numbered sequence (file really absent)` | The file does not exist on the server (e.g. EMPIAR-13156 `ROI_CICGFA_154.tif`). Nothing to do. |
@@ -161,21 +187,20 @@ After a successful run, the one manual dataset (OrgSegNet) is described in `$OUT
 | 8 | deepcontact | full | 3.2 GB | 3.2 GB |
 | 9 | zenodo-15602048 | TNBC TEM, full | 2.3 GB | 2.3 GB |
 | 10 | zenodo-17068504 | cardiomyocyte TEM, full | 0.5 GB | 0.5 GB |
-| 11 | platynereis-zenodo | training data, full | 6.8 GB | 6.8 GB |
-| 12 | fastem-4tu | FAST-EM sample zip, full | 7.3 GB | 7.3 GB |
-| 13 | platelet-guay | full | 0.2 GB | 0.2 GB |
-| 14 | s-biad2822 | NucleoNet, full | 2.0 GB | ≈ 3.9 GB |
-| 15 | deeppi-em | Google Drive folder | 0.5 GB | 0.5 GB |
-| 16 | orgsegnet | **manual**: writes `MANUAL_DOWNLOAD.txt` | (32.4 GB by hand) | |
-| 17 | openorganelle-crops | 3 crops + GT | ≈ 14.5 GB | ≈ 35 GB |
-| 18 | empiar-13420-crops | 3 crops + labels | ≈ 7.5 GB | ≈ 26 GB |
-| 19 | empiar-10791-crops | 3 crops + 7 label classes (slowest) | ≈ 19.7 GB | ≈ 267 GB |
-| 20 | asem-crops | 3 crops + labels | ≈ 9.7 GB | ≈ 12 GB |
-| 21 | fastem-crops | 3 crops + mito GT | ≈ 1.3 GB | ≈ 13 GB |
-| 22 | platynereis-crops | 3 raw crops | ≈ 21.7 GB | ≈ 26 GB |
-| | **total** (excl. OrgSegNet) | | **≈ 157 GB** | **≈ 500 GB** |
+| 11 | platynereis-zenodo | labeled training data, full | 6.8 GB | 6.8 GB |
+| 12 | platelet-guay | full | 0.2 GB | 0.2 GB |
+| 13 | s-biad2822 | NucleoNet, full | 2.0 GB | ≈ 3.9 GB |
+| 14 | deeppi-em | Google Drive folder | 0.5 GB | 0.5 GB |
+| 15 | orgsegnet | **manual**: writes `MANUAL_DOWNLOAD.txt` | (32.4 GB by hand) | |
+| 16 | openorganelle-crops | 49 windows of 1000³ covering all 64 GT crops | ≈ 32 GB | ≈ 70 GB |
+| 17 | empiar-13420-crops | 3 windows + labels | ≈ 1.8 GB | ≈ 40 GB |
+| 18 | empiar-10791-crops | 3 windows + 7 label classes (slowest per GB) | ≈ 2.5 GB | ≈ 80 GB |
+| 19 | asem-crops | 21 tiles over all labeled regions | ≈ 14 GB | ≈ 18 GB |
+| 20 | fastem-crops | 3 windows (54 sections) + mito GT | ≈ 0.3 GB | ≈ 2 GB |
+| | **total** (excl. OrgSegNet) | | **≈ 125 GB** | **≈ 330 GB** |
 
-Full numbers, how each was measured, and per-crop detail are in `../DATASET_SIZES.md`. Transfer is larger
+Crop sizes are estimates from compression ratios measured on 2026-10-08 (`../DATASET_SIZES.md` has the older
+2000³ plan in detail). Transfer is larger
 than storage where sources have no checksum and are read twice, or where whole slices or full-width rows must
 be fetched to cut out a crop. The 10791 liver crops are the slowest job: their raw slices are uncompressed and
 read twice, and every label slice is pulled out of a remote zip and decompressed.
@@ -198,7 +223,7 @@ kept in the attrs.
 Read a crop:
 ```python
 import zarr
-g = zarr.open_group("asem-crops/cell_46_crop.ome.zarr", mode="r")
+g = zarr.open_group("asem-crops/cell_46_t01.ome.zarr", mode="r")
 raw, mito = g["raw/s0"][:], g["labels/mito/s0"][:]
 ```
 
@@ -225,20 +250,21 @@ raw, mito = g["raw/s0"][:], g["labels/mito/s0"][:]
   failed, so `sacct` shows it. Re-submitting retries only what is missing.
 
 ## Known external issues (2026-10-08)
-* **4TU (fastem-4tu):** storage was "temporarily unavailable for maintenance" (HTTP 503) when tested. The task
-  retries, then fails cleanly; re-submit task 12 later.
 * **Science Data Bank (orgsegnet):** needs a browser login, so download it by hand (see `MANUAL_DOWNLOAD.txt`).
 * **Google Drive (deeppi-em):** gdown can hit Drive's per-file quota. If it does, retry later.
 
 ## How crop positions were chosen
-* **OpenOrganelle:** in each of jrc_hela-2, jrc_macrophage-2 and jrc_jurkat-1, the 2000³ window that fully
-  contains the most ground-truth crops (6, 4 and 6). The GT `all` arrays are copied at s1 (same grid as raw)
-  and s0 (native 2× finer).
-* **EMPIAR-13420:** the two FIB-SEM cells and the largest SBF-SEM cell, with each window over the labelled
-  nucleus/organelles (label extents measured from sampled label slices).
-* **EMPIAR-10791:** one crop per specimen (lean, obese1, obese2), centred in the volume. Includes all 7
-  segmentation classes.
-* **ASEM:** cells 46, 58 (mito/ER/Golgi labels) and 61 (mito, plus small ER/Golgi blocks). The window is placed
-  over the non-empty label chunks.
-* **FAST-EM:** the three non-overlapping 2000×2000 windows with the highest mito-GT coverage.
-* **Platynereis:** three non-overlapping windows whose low-resolution (s6) tissue mask is 100 % animal tissue.
+Crop edge is 1000 voxels (user decision 2026-10-12). Three placement rules, all in `dev/build_manifest.py`:
+* **OpenOrganelle (label boxes):** every ground-truth crop of jrc_hela-2 (26), jrc_macrophage-2 (18) and
+  jrc_jurkat-1 (20) is downloaded with its raw. A deterministic greedy cover picks 1000³ windows (19 + 16 + 14 =
+  49) so that each GT crop lies completely inside one window (`gt_crops` in the manifest lists which). Windows
+  may overlap. The GT `all` arrays are copied at s1 (same grid as raw) and s0 (native 2× finer).
+* **ASEM (sparse painted labels):** each cell volume is split into equal tiles of ≤ 1000 voxels per axis (an
+  axis whose labels all fit in one 1000 span gets a single span), and every tile that holds labeled chunks is
+  kept: 8 tiles of cell 46, 7 of cell 58, 4 of cell 61, plus one 1000³ window centred on each of cell 61's small
+  ER and Golgi blocks. Only the label classes present in a tile are written. ASEM annotation is sparse: 0 means
+  "not annotated", not necessarily background.
+* **Whole-volume labels (EMPIAR-10791, EMPIAR-13420, FAST-EM):** one 1000³ window per volume. 10791: centre of
+  the former 2000³ window (labels cover the whole volume; all 7 classes). 13420: the window holding the most
+  labeled voxels, measured on every ~70th label slice (2026-10-12). FAST-EM: centre of each former 2000×2000
+  window inside the Mito_GT region (raw + SOFIMA-realigned raw, both with GT).
