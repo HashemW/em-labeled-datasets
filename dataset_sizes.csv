@@ -1,0 +1,115 @@
+dataset,total_size_at_source_GB,how_total_was_obtained,plan,stored_on_disk_by_plan_GB,network_transfer_by_plan_GB,notes
+CEM-MitoLab (EMPIAR-11037),2.8,EMPIAR API `dataset_size`,full,2.8,2.8,"one zip: CRC-checked, read once"
+MitoEM 2.0 (Zenodo 17635006),17.53,"Zenodo API (sum of 8 files, exact)",full,17.53,17.5,md5-verified
+OrgSegNet (ScienceDB 01335),32.43,"DataCite metadata (exact; 6,076 files)",manual (browser),32.43,32.4,2D images: crops not applicable
+DeepContact (figshare 19898404),3.23,figshare API (exact),full,3.23,3.2,md5-verified
+TNBC TEM (Zenodo 15602048),2.34,Zenodo API (exact),full,2.34,2.3,md5-verified
+Cardiomyocyte TEM (Zenodo 17068504),0.49,Zenodo API (exact),full,0.49,0.5,md5-verified
+OpenOrganelle / COSEM (3 volumes used),3044.86,"S3 bucket listing of jrc_hela-2/, jrc_macrophage-2/, jrc_jurkat-1/ (exact; all formats, labels, predictions)",3 crops,14.49,34.8,"8-bit EM zarr actually read from: jrc_hela-2 73 GB, jrc_macrophage-2 94 GB, jrc_jurkat-1 122 GB. Bucket holds ~100 more volumes (not counted)"
+EMPIAR-13420 (macrophage / A431),37.9,EMPIAR API `dataset_size`,3 crops,7.51,25.9,
+EMPIAR-10994 (HeLa SBF-SEM),8.7,EMPIAR API `dataset_size`,full,8.7,17.4,double-read verified (no md5 published)
+EMPIAR-13156 (HeLa STARD3),10.3,EMPIAR API `dataset_size`,full,10.3,20.6,double-read verified
+"FAST-EM (TU Delft, MCF-7)",460.74,"computed: WebKnossos EM layer 93184x90112x54 uint8 (served uncompressed; no listing) + 4TU API (exact, 7.3 GB)",3 crops + 4TU zip,8.56,20.6,4TU part md5-verified; 4TU down for maintenance on 2026-10-08
+DeepPI-EM (Google Drive),0.54,measured: full download on 2026-10-08 (Drive shows no folder total),full,0.54,0.5,
+EMPIAR-10982 (MitoNet benchmarks),4.1,EMPIAR API `dataset_size`,full,4.1,8.2,double-read verified
+EMPIAR-12885 (AIVE),32.8,EMPIAR API `dataset_size`; subset by HEAD of the 24 selected files (exact),useful subset,5.96,11.9,skips predictions/CLAHE/duplicates (user decision)
+ASEM / incasem,1715.77,"S3 bucket listing of s3://asem-project (exact, 5.98 M objects)",3 crops,9.65,12.3,"labelled cells alone: 46 = 68 GB, 58 = 70 GB, 61 = 208 GB (mostly predictions)"
+Guay et al. platelet,0.19,measured: full download (Dropbox sends no size header),full,0.19,0.2,zip CRC-checked
+EMPIAR-11746 + Zenodo 10043461 (U2-OS),10.06,EMPIAR API + Zenodo API,full (both),10.06,15.3,
+EMPIAR-10791 (mouse liver),2800.0,EMPIAR API `dataset_size` (README: 17 TB once segmentation zips are unpacked),3 crops,19.68,267.1,raw rows read twice (uncompressed source)
+Platynereis (Zenodo 3675220 + raw N5),2162.64,"Zenodo API (6.8 GB, exact) + bucket listing of the raw N5 pyramid (exact; s0 = 1.68 TB stored, 8.1 TB bounding box uncompressed)",Zenodo full + 3 crops,28.46,32.4,
+S-BIAD2822 (NucleoNet),1.95,"BioStudies file lists (sum, exact)",full,1.95,3.9,double-read verified
+
+crop,array,shape_zyx,dtype,uncompressed_GB,measured_compression_ratio,est_on_disk_GB
+asem-crops/cell_46_crop,raw,1921x1100x2000,|u1,4.226,0.7728,3.266
+asem-crops/cell_46_crop,labels/mito,1921x1100x2000,<u4,16.905,0.0005,0.008
+asem-crops/cell_46_crop,labels/er,1921x1100x2000,<u4,16.905,0.0005,0.008
+asem-crops/cell_46_crop,labels/golgi,1921x1100x2000,<u4,16.905,0.0005,0.008
+asem-crops/cell_58_crop,raw,1982x1000x2000,|u1,3.964,0.6561,2.601
+asem-crops/cell_58_crop,labels/mito,1982x1000x2000,<u4,15.856,0.0005,0.008
+asem-crops/cell_58_crop,labels/er,1982x1000x2000,<u4,15.856,0.0005,0.008
+asem-crops/cell_58_crop,labels/golgi,1982x1000x2000,<u4,15.856,0.0005,0.008
+asem-crops/cell_61_crop,raw,1805x1400x2000,|u1,5.054,0.737,3.725
+asem-crops/cell_61_crop,labels/mito,1805x1400x2000,<u4,20.216,0.0005,0.01
+asem-crops/cell_61_crop,labels/er,204x204x400,<u4,0.067,0.0044,0.0
+asem-crops/cell_61_crop,labels/golgi,210x283x371,<u4,0.088,0.0031,0.0
+empiar-10791-crops/6461_lean_crop,raw,2000x2000x2000,|u1,8.0,0.794,6.352
+empiar-10791-crops/6461_lean_crop,labels/er,2000x2000x2000,|u1,8.0,0.0255,0.204
+empiar-10791-crops/6461_lean_crop,labels/er_sheets,2000x2000x2000,|u1,8.0,0.0104,0.083
+empiar-10791-crops/6461_lean_crop,labels/er_tubules,2000x2000x2000,|u1,8.0,0.0178,0.142
+empiar-10791-crops/6461_lean_crop,labels/lipid_droplet,2000x2000x2000,|u1,8.0,0.0005,0.004
+empiar-10791-crops/6461_lean_crop,labels/mitochondria,2000x2000x2000,|u1,8.0,0.0028,0.022
+empiar-10791-crops/6461_lean_crop,labels/nuclear_membrane,2000x2000x2000,|u1,8.0,0.0005,0.004
+empiar-10791-crops/6461_lean_crop,labels/plasma_membrane,2000x2000x2000,<u4,32.0,0.0005,0.016
+empiar-10791-crops/6464_obese1_crop,raw,2000x2000x2000,|u1,8.0,0.7459,5.967
+empiar-10791-crops/6464_obese1_crop,labels/er,2000x2000x2000,|u1,8.0,0.0187,0.15
+empiar-10791-crops/6464_obese1_crop,labels/er_sheets,2000x2000x2000,|u1,8.0,0.0032,0.026
+empiar-10791-crops/6464_obese1_crop,labels/er_tubules,2000x2000x2000,|u1,8.0,0.019,0.152
+empiar-10791-crops/6464_obese1_crop,labels/lipid_droplet,2000x2000x2000,|u1,8.0,0.0021,0.017
+empiar-10791-crops/6464_obese1_crop,labels/mitochondria,2000x2000x2000,|u1,8.0,0.0037,0.029
+empiar-10791-crops/6464_obese1_crop,labels/nuclear_membrane,2000x2000x2000,|u1,8.0,0.0005,0.004
+empiar-10791-crops/6464_obese1_crop,labels/plasma_membrane,2000x2000x2000,<u4,32.0,0.0005,0.016
+empiar-10791-crops/9430_obese2_crop,raw,2000x2000x2000,|u1,8.0,0.7573,6.058
+empiar-10791-crops/9430_obese2_crop,labels/er,2000x2000x2000,|u1,8.0,0.0216,0.173
+empiar-10791-crops/9430_obese2_crop,labels/er_sheets,2000x2000x2000,|u1,8.0,0.0061,0.049
+empiar-10791-crops/9430_obese2_crop,labels/er_tubules,2000x2000x2000,|u1,8.0,0.0202,0.161
+empiar-10791-crops/9430_obese2_crop,labels/lipid_droplet,2000x2000x2000,|u1,8.0,0.0015,0.012
+empiar-10791-crops/9430_obese2_crop,labels/mitochondria,2000x2000x2000,|u1,8.0,0.0035,0.028
+empiar-10791-crops/9430_obese2_crop,labels/nuclear_membrane,2000x2000x2000,|u1,8.0,0.0005,0.004
+empiar-10791-crops/9430_obese2_crop,labels/plasma_membrane,2000x2000x2000,|u1,8.0,0.0005,0.004
+empiar-13420-crops/FIB_240729_HumanMP_TNFa_1U_crop,raw,2000x785x2000,|u1,3.14,0.9265,2.909
+empiar-13420-crops/FIB_240729_HumanMP_TNFa_1U_crop,labels/nucleus_ld,2000x785x2000,|u1,3.14,0.0014,0.004
+empiar-13420-crops/FIB_240801_HumanMP_Control_crop,raw,2000x1054x2000,|u1,4.216,0.8613,3.631
+empiar-13420-crops/FIB_240801_HumanMP_Control_crop,labels/combined,2000x1054x2000,|u1,4.216,0.0052,0.022
+empiar-13420-crops/SBF_240424_Microphages_no_load_crop,raw,257x2000x2000,|u1,1.028,0.9136,0.939
+empiar-13420-crops/SBF_240424_Microphages_no_load_crop,labels/nuclei_ld,257x2000x2000,|u1,1.028,0.0005,0.001
+fastem-crops/MCF7_UAc_crop1,raw,54x2000x2000,|u1,0.216,0.9663,0.209
+fastem-crops/MCF7_UAc_crop1,labels/mito_gt,54x2000x2000,<u4,0.864,0.0005,0.0
+fastem-crops/MCF7_UAc_crop1,raw_realigned,54x2000x2000,|u1,0.216,0.9645,0.208
+fastem-crops/MCF7_UAc_crop1,labels/mito_gt_realigned,54x2000x2000,<u4,0.864,0.0005,0.0
+fastem-crops/MCF7_UAc_crop2,raw,54x2000x2000,|u1,0.216,0.9739,0.21
+fastem-crops/MCF7_UAc_crop2,labels/mito_gt,54x2000x2000,<u4,0.864,0.0005,0.0
+fastem-crops/MCF7_UAc_crop2,raw_realigned,54x2000x2000,|u1,0.216,0.9624,0.208
+fastem-crops/MCF7_UAc_crop2,labels/mito_gt_realigned,54x2000x2000,<u4,0.864,0.0005,0.0
+fastem-crops/MCF7_UAc_crop3,raw,54x2000x2000,|u1,0.216,0.9789,0.211
+fastem-crops/MCF7_UAc_crop3,labels/mito_gt,54x2000x2000,<u4,0.864,0.0005,0.0
+fastem-crops/MCF7_UAc_crop3,raw_realigned,54x2000x2000,|u1,0.216,0.9678,0.209
+fastem-crops/MCF7_UAc_crop3,labels/mito_gt_realigned,54x2000x2000,<u4,0.864,0.0005,0.0
+openorganelle-crops/jrc_hela-2_crop,raw,2000x1600x2000,|u1,6.4,0.7614,4.873
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop113,250x500x500,|u1,0.062,0.046,0.003
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop113_s0,500x1000x1000,|u1,0.5,0.0203,0.01
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop23,250x250x250,|u1,0.016,0.0346,0.001
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop23_s0,500x500x500,|u1,0.125,0.0149,0.002
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop6,250x250x250,|u1,0.016,0.0344,0.001
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop6_s0,500x500x500,|u1,0.125,0.0157,0.002
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop8,100x200x200,|u1,0.004,0.0258,0.0
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop8_s0,200x400x400,|u1,0.032,0.0135,0.0
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop9,53x100x100,|u1,0.001,0.0502,0.0
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop9_s0,106x200x200,|u1,0.004,0.025,0.0
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop96,200x200x200,|u1,0.008,0.0005,0.0
+openorganelle-crops/jrc_hela-2_crop,labels/gt_crop96_s0,400x400x400,|u1,0.064,0.0005,0.0
+openorganelle-crops/jrc_jurkat-1_crop,raw,2000x2000x2000,|u1,8.0,0.5845,4.676
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop107,200x200x200,|u1,0.008,0.0476,0.0
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop107_s0,400x400x400,|u1,0.064,0.0234,0.001
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop126,200x200x200,|u1,0.008,0.0407,0.0
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop126_s0,400x400x400,|u1,0.064,0.0195,0.001
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop180,200x200x200,|u1,0.008,0.0394,0.0
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop180_s0,400x400x400,|u1,0.064,0.0184,0.001
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop182,200x200x200,|u1,0.008,0.04,0.0
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop182_s0,400x400x400,|u1,0.064,0.0184,0.001
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop71,200x200x200,|u1,0.008,0.0005,0.0
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop71_s0,400x400x400,|u1,0.064,0.0005,0.0
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop91,200x200x200,|u1,0.008,0.0005,0.0
+openorganelle-crops/jrc_jurkat-1_crop,labels/gt_crop91_s0,400x400x400,|u1,0.064,0.0005,0.0
+openorganelle-crops/jrc_macrophage-2_crop,raw,2000x2000x2000,|u1,8.0,0.6127,4.901
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop110,501x250x502,|u1,0.063,0.0571,0.004
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop110_s0,1002x500x1004,|u1,0.503,0.0227,0.011
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop40,200x200x200,|u1,0.008,0.0549,0.0
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop40_s0,400x400x400,|u1,0.064,0.0259,0.002
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop73,200x200x200,|u1,0.008,0.0005,0.0
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop73_s0,400x400x400,|u1,0.064,0.0005,0.0
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop89,200x200x200,|u1,0.008,0.0005,0.0
+openorganelle-crops/jrc_macrophage-2_crop,labels/gt_crop89_s0,400x400x400,|u1,0.064,0.0005,0.0
+platynereis-crops/sbem-6dpf-1_crop1,raw,2000x2000x2000,|u1,8.0,0.9061,7.249
+platynereis-crops/sbem-6dpf-1_crop2,raw,2000x2000x2000,|u1,8.0,0.8889,7.112
+platynereis-crops/sbem-6dpf-1_crop3,raw,2000x2000x2000,|u1,8.0,0.9184,7.347

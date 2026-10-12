@@ -1,0 +1,8 @@
+numpy>=1.24
+requests>=2.28
+urllib3>=1.26
+zarr>=2.16          # zarr 3.x on Python >= 3.11; zarr 2.16+ also supported
+numcodecs>=0.11
+tifffile>=2023.7.10
+imagecodecs>=2023.3.16   # LZW-compressed TIFF slices (EMPIAR-13420)
+gdown>=5.2          # DeepPI-EM (Google Drive)

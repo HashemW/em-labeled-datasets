@@ -1,0 +1,2601 @@
+{
+ "generated": "2026-10-08",
+ "datasets": [
+  {
+   "id": "empiar-11037",
+   "title": "CEM-MitoLab (2D mito instance labels)",
+   "kind": "http_dir",
+   "urls": [
+    "https://ftp.ebi.ac.uk/empiar/world_availability/11037/"
+   ]
+  },
+  {
+   "id": "empiar-10982",
+   "title": "MitoNet benchmarks (6 vEM volumes + 100 TEM)",
+   "kind": "http_dir",
+   "urls": [
+    "https://ftp.ebi.ac.uk/empiar/world_availability/10982/"
+   ]
+  },
+  {
+   "id": "empiar-10994",
+   "title": "HeLa SBF-SEM REEP3/4 (ER, mito)",
+   "kind": "http_dir",
+   "urls": [
+    "https://ftp.ebi.ac.uk/empiar/world_availability/10994/"
+   ]
+  },
+  {
+   "id": "empiar-13156",
+   "title": "HeLa STARD3 FIB-SEM",
+   "kind": "http_dir",
+   "urls": [
+    "https://ftp.ebi.ac.uk/empiar/world_availability/13156/"
+   ]
+  },
+  {
+   "id": "empiar-11746",
+   "title": "U2-OS FIB-SEM (EMPIAR part)",
+   "kind": "http_dir",
+   "urls": [
+    "https://ftp.ebi.ac.uk/empiar/world_availability/11746/"
+   ]
+  },
+  {
+   "id": "zenodo-10043461",
+   "title": "U2-OS FIB-SEM DeepMIB ground truth (Zenodo part of EMPIAR-11746)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/1_Golgi.zip/content",
+     "dest": "1_Golgi.zip",
+     "size": 943294831,
+     "md5": "e5ddafaf2252d32f3db0ddb9519237b7"
+    },
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/1_NE.zip/content",
+     "dest": "1_NE.zip",
+     "size": 135662003,
+     "md5": "003880e9b2e8782c0224e5aab6af097c"
+    },
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/2_Predict_crop.zip/content",
+     "dest": "2_Predict_crop.zip",
+     "size": 185867516,
+     "md5": "5962e246b513bbf92163bbe261a4594f"
+    },
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/Datasets%20and%20DeepMIB%20projects%20for%20segmentation%20of%20organelles%20of%20U2OS%20cell.pdf/content",
+     "dest": "Datasets and DeepMIB projects for segmentation of organelles of U2OS cell.pdf",
+     "size": 863570,
+     "md5": "aff0e47cb8ac832c444b6133e5c6e995"
+    },
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/1_ER.zip/content",
+     "dest": "1_ER.zip",
+     "size": 1604345905,
+     "md5": "c6120681afd47483c7e143a7437aed72"
+    },
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/2_Predict_crop_bin2.zip/content",
+     "dest": "2_Predict_crop_bin2.zip",
+     "size": 43025436,
+     "md5": "1ac2e4036656dd7ea6e52418303bf105"
+    },
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/1_Mitochondria.zip/content",
+     "dest": "1_Mitochondria.zip",
+     "size": 461692643,
+     "md5": "2652b008c58556f4e269497e0bb57e3e"
+    },
+    {
+     "url": "https://zenodo.org/api/records/10043461/files/0_Segmentation.zip/content",
+     "dest": "0_Segmentation.zip",
+     "size": 1489995412,
+     "md5": "f8c69dcde972f550fb5e55cb323ff9fc"
+    }
+   ]
+  },
+  {
+   "id": "empiar-12885",
+   "title": "AIVE (subset: raw overviews, class labels, test ROI, human annotations)",
+   "kind": "http_dir",
+   "urls": [
+    "https://ftp.ebi.ac.uk/empiar/world_availability/12885/"
+   ],
+   "include": [
+    "^12885\\.xml$",
+    "^data/Set[1-3]_-_AIVE_SOURCE_DATA/Dataset[1-3]_overview(\\.tif| - ORGANELLE CLASS LABELS\\.tif| CLASS IDS\\.txt)$",
+    "^data/Set4_-_AIVE_SOURCE_DATA/Dataset4_(overview|MitoClasss)\\.tif$",
+    "^data/Set4_-_AIVE_OUTPUTS/",
+    "^data/DATASET1_TEST_ROI/[^/]+\\.tif$",
+    "^data/DATASET1_TEST_ROI/Human_Vs_Unet_-_Mito_Classification/"
+   ],
+   "note": "Skipped (per user decision): MembranePredictions, XYZCLAHE copies, Model_comparisons, duplicate folders."
+  },
+  {
+   "id": "mitoem2",
+   "title": "MitoEM 2.0 (Zenodo 17635006)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset006_ME2-Pyra.zip/content",
+     "dest": "Dataset006_ME2-Pyra.zip",
+     "size": 10097452474,
+     "md5": "3b999051a928b15c1fd3d9e530059d87"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset005_ME2-Podo.zip/content",
+     "dest": "Dataset005_ME2-Podo.zip",
+     "size": 664977445,
+     "md5": "ba8449f2a647652fdd74253348d2d510"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset004_ME2-Mossy.zip/content",
+     "dest": "Dataset004_ME2-Mossy.zip",
+     "size": 3197420922,
+     "md5": "6d2114694b79899b74d0a17fdd302c30"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset007_ME2-Sperm.zip/content",
+     "dest": "Dataset007_ME2-Sperm.zip",
+     "size": 870527067,
+     "md5": "a1f091a8f308f507c8933eb718076401"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset008_ME2-Stem.zip/content",
+     "dest": "Dataset008_ME2-Stem.zip",
+     "size": 287709314,
+     "md5": "8ceec93cfde1dbe03466c275b5bb6e2b"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset001_ME2-Beta.zip/content",
+     "dest": "Dataset001_ME2-Beta.zip",
+     "size": 792107990,
+     "md5": "1ac782a08afa2d56471ed98261b6a75e"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset003_ME2-Macro.zip/content",
+     "dest": "Dataset003_ME2-Macro.zip",
+     "size": 785466687,
+     "md5": "8d1bfbff55682aa5d4c4d925b1316e01"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17635006/files/Dataset002_ME2-Jurkat.zip/content",
+     "dest": "Dataset002_ME2-Jurkat.zip",
+     "size": 833017994,
+     "md5": "0ada2bb673419164645507e82042ef91"
+    }
+   ]
+  },
+  {
+   "id": "deepcontact",
+   "title": "DeepContact training data (figshare 19898404)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://ndownloader.figshare.com/files/35317564",
+     "dest": "cell_data.zip",
+     "size": 2069240590,
+     "md5": "c05fdbf789c084015d61824e3e17aa3a"
+    },
+    {
+     "url": "https://ndownloader.figshare.com/files/35317573",
+     "dest": "sem_data.zip",
+     "size": 851840146,
+     "md5": "3764540de8d9c7b983a46cf09fa1f8a9"
+    },
+    {
+     "url": "https://ndownloader.figshare.com/files/35317576",
+     "dest": "tem_data.zip",
+     "size": 108025002,
+     "md5": "fcc41c697e959d633491a9770cb6ff25"
+    },
+    {
+     "url": "https://ndownloader.figshare.com/files/35383150",
+     "dest": "DeepContact Vs. MannualAnnotation_20210207.zip",
+     "size": 120621950,
+     "md5": "bc9cd087afd3e552ab0d2935c514b8d1"
+    },
+    {
+     "url": "https://ndownloader.figshare.com/files/35383153",
+     "dest": "Test Data-ROTO_SEM_5nm.zip",
+     "size": 76197916,
+     "md5": "bfbb505aeca0b4cd88020a69a46c0252"
+    }
+   ]
+  },
+  {
+   "id": "zenodo-15602048",
+   "title": "TNBC TEM mitochondria (tem-seg)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://zenodo.org/api/records/15602048/files/tem-seg-data_slide_images.tar.gz/content",
+     "dest": "tem-seg-data_slide_images.tar.gz",
+     "size": 2338561376,
+     "md5": "927da5de97ff9d7b60fd82b44424b064"
+    },
+    {
+     "url": "https://zenodo.org/api/records/15602048/files/tem-seg-data_mitochondria_masks.tar.gz/content",
+     "dest": "tem-seg-data_mitochondria_masks.tar.gz",
+     "size": 5170859,
+     "md5": "a73545029fdf5c60f53296530812aefd"
+    }
+   ]
+  },
+  {
+   "id": "zenodo-17068504",
+   "title": "Cardiomyocyte TEM / MitoMapper",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/KO_914.4_nucA_m3_M3500x_nucleus.tif/content",
+     "dest": "KO_914.4_nucA_m3_M3500x_nucleus.tif",
+     "size": 37889120,
+     "md5": "7506599f1389a6b9106f0a1ae3c59343"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.1_nucA_m3_3500x.tif/content",
+     "dest": "914.1_nucA_m3_3500x.tif",
+     "size": 36066441,
+     "md5": "01ce8bc54e374e294f3a4eddebddcfb5"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.22_nucE_m2_3500x.tif/content",
+     "dest": "914.22_nucE_m2_3500x.tif",
+     "size": 25170577,
+     "md5": "d3e7008bbdd5f40560f4e3f0c8aabf57"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.22_nucC_m3_3500x.tif/content",
+     "dest": "914.22_nucC_m3_3500x.tif",
+     "size": 32471497,
+     "md5": "2476beaed539913afbeefb5bdb8687d3"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.1_nucC_m3_3500x.tif/content",
+     "dest": "914.1_nucC_m3_3500x.tif",
+     "size": 22555369,
+     "md5": "98f4cf49c3e5622d580caa05cfb83b08"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.9_grid1_nucA_m3_M3500x.tif/content",
+     "dest": "914.9_grid1_nucA_m3_M3500x.tif",
+     "size": 133268329,
+     "md5": "6ea4b076f2b0d06ed13cf64f79295c0e"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/Mito_Masks.zip/content",
+     "dest": "Mito_Masks.zip",
+     "size": 4489138,
+     "md5": "2cbf202b8cf4558f782b7269183172c7"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.11_grid4_nucA_m2_M3500x.tif/content",
+     "dest": "914.11_grid4_nucA_m2_M3500x.tif",
+     "size": 41441113,
+     "md5": "ed22f52791bbbee2552061f47ecd86cf"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.11_grid1_nucA_m2_M3500x.tif/content",
+     "dest": "914.11_grid1_nucA_m2_M3500x.tif",
+     "size": 45677969,
+     "md5": "cb603da797a980ef56da8b384c0f76f4"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/Myo_Masks.zip/content",
+     "dest": "Myo_Masks.zip",
+     "size": 3626041,
+     "md5": "c45a2cd31e7da9aeddb973881cf89d19"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.16_18.12.2023_nucD_m2_3500x.tif/content",
+     "dest": "914.16_18.12.2023_nucD_m2_3500x.tif",
+     "size": 69871362,
+     "md5": "1daba5cd73ede0b90d1c04035f44ee89"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/914.4_nucA_m3_M3500x.tif/content",
+     "dest": "914.4_nucA_m3_M3500x.tif",
+     "size": 37889609,
+     "md5": "d5f195f1457fe86484fd047393f967ff"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/Nucleolus_Masks.zip/content",
+     "dest": "Nucleolus_Masks.zip",
+     "size": 132983,
+     "md5": "282161e092ecf0fcb1fbae885c631ddb"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/Cell_Masks.zip/content",
+     "dest": "Cell_Masks.zip",
+     "size": 1106355,
+     "md5": "12b145ce327b4a2288a25859ef633ee1"
+    },
+    {
+     "url": "https://zenodo.org/api/records/17068504/files/Nucleus_Masks.zip/content",
+     "dest": "Nucleus_Masks.zip",
+     "size": 630360,
+     "md5": "caa7eb11197605d139bc324b51b48bc5"
+    }
+   ]
+  },
+  {
+   "id": "platynereis-zenodo",
+   "title": "Platynereis CNN training data (Zenodo 3675220)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://zenodo.org/api/records/3675220/files/cuticle.zip/content",
+     "dest": "cuticle.zip",
+     "size": 342518139,
+     "md5": "06a35bd8d4f8eeb46d97854de2cf3b7d"
+    },
+    {
+     "url": "https://zenodo.org/api/records/3675220/files/cilia.zip/content",
+     "dest": "cilia.zip",
+     "size": 320913441,
+     "md5": "a7222e79499af6fea1a2093956c59f06"
+    },
+    {
+     "url": "https://zenodo.org/api/records/3675220/files/membrane.zip/content",
+     "dest": "membrane.zip",
+     "size": 3046989850,
+     "md5": "7c943da1fe5fb18fe42dcb9dc0367b12"
+    },
+    {
+     "url": "https://zenodo.org/api/records/3675220/files/nuclei.zip/content",
+     "dest": "nuclei.zip",
+     "size": 3046371419,
+     "md5": "e81eca5f24208c5971a52464ea8fa2f3"
+    }
+   ]
+  },
+  {
+   "id": "fastem-4tu",
+   "title": "FAST-EM MCF-7 sample (4TU, raw tiles, unlabeled)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://data.4tu.nl/file/bf3f2b23-2328-4d81-a0f4-05fdb33117d7/f7103cf1-b2f0-4054-bbc6-1e0192c01569",
+     "dest": "20231107_MCF7_UAC_test.zip",
+     "size": 7300219718,
+     "md5": "43a4de39668dc710fb63536ce9ac9632"
+    },
+    {
+     "url": "https://data.4tu.nl/file/bf3f2b23-2328-4d81-a0f4-05fdb33117d7/294f986b-e5b9-4dc5-9a6f-1102f3efdff7",
+     "dest": "README.md",
+     "size": 3498,
+     "md5": "9bb8f3d55f03042d6f5e1b6bd49d477b"
+    }
+   ]
+  },
+  {
+   "id": "platelet-guay",
+   "title": "Guay et al. platelet SBF-SEM (dense-cell)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://www.dropbox.com/s/68yclbraqq1diza/platelet_data_1219.zip?dl=1",
+     "dest": "platelet_data_1219.zip"
+    }
+   ]
+  },
+  {
+   "id": "s-biad2822",
+   "title": "NucleoNet nuclei (BioImage Archive S-BIAD2822)",
+   "kind": "files",
+   "files": [
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_1/img_2bf732c1.tif",
+     "dest": "id_1/img_2bf732c1.tif",
+     "size": 201290072
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_1/lbl_2bf732c1.tif",
+     "dest": "id_1/lbl_2bf732c1.tif",
+     "size": 2442061
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_2/img_97dde2ee.tiff",
+     "dest": "id_2/img_97dde2ee.tiff",
+     "size": 173445733
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_2/lbl_97dde2ee.tif",
+     "dest": "id_2/lbl_97dde2ee.tif",
+     "size": 2187643
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_3/img_626dde70.tif",
+     "dest": "id_3/img_626dde70.tif",
+     "size": 165713690
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_3/lbl_626dde70.tif",
+     "dest": "id_3/lbl_626dde70.tif",
+     "size": 1965077
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_4/img_57f48663.tif",
+     "dest": "id_4/img_57f48663.tif",
+     "size": 139858808
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_4/lbl_57f48663.tif",
+     "dest": "id_4/lbl_57f48663.tif",
+     "size": 3967367
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_5/img_22668234.tiff",
+     "dest": "id_5/img_22668234.tiff",
+     "size": 188860668
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_5/lbl_22668234.tif",
+     "dest": "id_5/lbl_22668234.tif",
+     "size": 6106748
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_6/img_c69fbe8a.tif",
+     "dest": "id_6/img_c69fbe8a.tif",
+     "size": 292276384
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_6/lbl_c69fbe8a.tif",
+     "dest": "id_6/lbl_c69fbe8a.tif",
+     "size": 4300171
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_7/img_4ff7ad90.tif",
+     "dest": "id_7/img_4ff7ad90.tif",
+     "size": 100000148
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_7/lbl_4ff7ad90.tif",
+     "dest": "id_7/lbl_4ff7ad90.tif",
+     "size": 1668167
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_8/img_ee855e08.tif",
+     "dest": "id_8/img_ee855e08.tif",
+     "size": 171020286
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_8/lbl_ee855e08.tif",
+     "dest": "id_8/lbl_ee855e08.tif",
+     "size": 2573488
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_9/img_387a5d97.tif",
+     "dest": "id_9/img_387a5d97.tif",
+     "size": 100001882
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_9/lbl_387a5d97.tif",
+     "dest": "id_9/lbl_387a5d97.tif",
+     "size": 1835737
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_10/img_87356f94.tif",
+     "dest": "id_10/img_87356f94.tif",
+     "size": 18087265
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_10/lbl_87356f94.tif",
+     "dest": "id_10/lbl_87356f94.tif",
+     "size": 321311
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_11/img_4808a925.tif",
+     "dest": "id_11/img_4808a925.tif",
+     "size": 183756636
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_11/lbl_4808a925.tif",
+     "dest": "id_11/lbl_4808a925.tif",
+     "size": 8897592
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_12/img_596d5ecb.tif",
+     "dest": "id_12/img_596d5ecb.tif",
+     "size": 178524596
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/biostudies/fire/S-BIAD/822/S-BIAD2822/Files/id_12/lbl_596d5ecb.tif",
+     "dest": "id_12/lbl_596d5ecb.tif",
+     "size": 5828642
+    }
+   ]
+  },
+  {
+   "id": "deeppi-em",
+   "title": "DeepPI-EM skeletal muscle TEM (Google Drive)",
+   "kind": "gdown_folder",
+   "url": "https://drive.google.com/drive/folders/1LtnarR9R_zz0SPnEz5lSdYBQWNgYM1VT",
+   "dest": "Skeletal_muscle",
+   "expect_files": 54
+  },
+  {
+   "id": "orgsegnet",
+   "title": "OrgSegNet / Plantorganelle Hunter (Science Data Bank)",
+   "kind": "manual",
+   "instructions": "\nOrgSegNet / Plantorganelle Hunter dataset (32.4 GB, 6,076 files, CC-BY-4.0) is hosted on Science Data Bank,\nwhich only serves downloads through its logged-in web UI, so it cannot be scripted.\n\n1. Open https://doi.org/10.57760/sciencedb.01335\n   (landing page: https://www.scidb.cn/en/detail?dataSetId=38ac871d518e41d5800a8abf39c26278)\n2. Log in (free account) and use \"Download all\" (or download the folders individually).\n3. Copy the files to this directory on the cluster (e.g. with rsync/scp via the data-transfer node).\nContent: rice leaf TEM images (TIF, 4800x3730) + Labelme JSON + PNG masks for chloroplast, mitochondria,\nvacuole, nucleus. 2D data, so no crops are needed.\n"
+  },
+  {
+   "id": "openorganelle-crops",
+   "title": "OpenOrganelle/COSEM: 3 crops (hela-2, macrophage-2, jurkat-1) + GT",
+   "kind": "crops",
+   "crops": [
+    {
+     "name": "jrc_hela-2_crop",
+     "offset_zyx": [
+      1249,
+      0,
+      2140
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      5.24,
+      4.0,
+      4.0
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/em/fibsem-uint8/s0",
+       "voxel_nm_zyx": [
+        5.24,
+        4.0,
+        4.0
+       ]
+      },
+      {
+       "name": "labels/gt_crop113",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop113/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        5.24,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        2975.0,
+        25.0,
+        3125.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop113_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop113/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        2.62,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        5949.5,
+        49.5,
+        6249.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop23",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop23/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        5.24,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        2030.0,
+        280.0,
+        2750.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop23_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop23/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        2.62,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        4059.5,
+        559.5,
+        5499.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop6",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop6/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        5.24,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        2999.0,
+        400.0,
+        3020.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop6_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop6/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        2.62,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        5997.5,
+        799.5,
+        6039.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop8",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop8/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        5.24,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        1249.0,
+        280.0,
+        3385.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop8_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop8/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        2.62,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        2497.5,
+        559.5,
+        6769.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop9",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop9/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        5.24,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        1609.0,
+        420.0,
+        2900.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop9_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop9/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        2.62,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        3217.5,
+        839.5,
+        5799.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop96",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop96/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        5.24,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        2281.0,
+        442.0,
+        3940.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop96_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_hela-2/jrc_hela-2.zarr/recon-1/labels/groundtruth/crop96/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        2.62,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        4561.5,
+        883.5,
+        7879.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      }
+     ],
+     "note": "2000^3 window chosen to contain GT crops ['crop113', 'crop23', 'crop6', 'crop8', 'crop9', 'crop96'] completely"
+    },
+    {
+     "name": "jrc_macrophage-2_crop",
+     "offset_zyx": [
+      4011,
+      0,
+      1340
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      3.36,
+      4.0,
+      4.0
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/em/fibsem-uint8/s0",
+       "voxel_nm_zyx": [
+        3.36,
+        4.0,
+        4.0
+       ]
+      },
+      {
+       "name": "labels/gt_crop110",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop110/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.36,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        5510.0,
+        315.0,
+        2305.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop110_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop110/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.68,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        11019.5,
+        629.5,
+        4609.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop40",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop40/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.36,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        4903.0,
+        238.0,
+        2314.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop40_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop40/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.68,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        9805.5,
+        475.5,
+        4627.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop73",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop73/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.36,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        5070.0,
+        1347.0,
+        1529.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop73_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop73/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.68,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        10139.5,
+        2693.5,
+        3057.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop89",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop89/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.36,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        4750.0,
+        630.0,
+        3140.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop89_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_macrophage-2/jrc_macrophage-2.zarr/recon-1/labels/groundtruth/crop89/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.68,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        9499.5,
+        1259.5,
+        6279.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      }
+     ],
+     "note": "2000^3 window chosen to contain GT crops ['crop110', 'crop40', 'crop73', 'crop89'] completely"
+    },
+    {
+     "name": "jrc_jurkat-1_crop",
+     "offset_zyx": [
+      2300,
+      0,
+      4493
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      3.44,
+      4.0,
+      4.0
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/em/fibsem-uint8/s0",
+       "voxel_nm_zyx": [
+        3.44,
+        4.0,
+        4.0
+       ]
+      },
+      {
+       "name": "labels/gt_crop107",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop107/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.44,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        4100.0,
+        435.0,
+        6200.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop107_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop107/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.72,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        8199.5,
+        869.5,
+        12399.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop126",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop126/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.44,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        3700.0,
+        1297.0,
+        5140.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop126_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop126/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.72,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        7399.5,
+        2593.5,
+        10279.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop180",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop180/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.44,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        3700.0,
+        1297.0,
+        5140.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop180_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop180/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.72,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        7399.5,
+        2593.5,
+        10279.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop182",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop182/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.44,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        3700.0,
+        1297.0,
+        5140.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop182_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop182/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.72,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        7399.5,
+        2593.5,
+        10279.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop71",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop71/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.44,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        2629.0,
+        142.0,
+        6293.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop71_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop71/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.72,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        5257.5,
+        283.5,
+        12585.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      },
+      {
+       "name": "labels/gt_crop91",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop91/all/s1",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        3.44,
+        4.0,
+        4.0
+       ],
+       "world_offset_vox_zyx": [
+        4080.0,
+        510.0,
+        5120.0
+       ],
+       "note": "dense multi-class GT ('all'), aligned with raw (EM s0 grid)"
+      },
+      {
+       "name": "labels/gt_crop91_s0",
+       "type": "zarr2",
+       "url": "https://janelia-cosem-datasets.s3.amazonaws.com/jrc_jurkat-1/jrc_jurkat-1.zarr/recon-1/labels/groundtruth/crop91/all/s0",
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "voxel_nm_zyx": [
+        1.72,
+        2.0,
+        2.0
+       ],
+       "world_offset_vox_zyx": [
+        8159.5,
+        1019.5,
+        10239.5
+       ],
+       "note": "dense multi-class GT at native annotation resolution (2x finer than raw)"
+      }
+     ],
+     "note": "2000^3 window chosen to contain GT crops ['crop107', 'crop126', 'crop180', 'crop182', 'crop71', 'crop91'] completely"
+    }
+   ]
+  },
+  {
+   "id": "empiar-13420-crops",
+   "title": "EMPIAR-13420 macrophage/A431: 3 crops (2 FIB-SEM, 1 SBF-SEM)",
+   "kind": "crops",
+   "extra_files": [
+    {
+     "url": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/README",
+     "dest": "README"
+    }
+   ],
+   "crops": [
+    {
+     "name": "FIB_240729_HumanMP_TNFa_1U_crop",
+     "offset_zyx": [
+      0,
+      0,
+      550
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      12,
+      6,
+      6
+     ],
+     "labels_note": "1 nucleus, 2 lipid droplets",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/FIB/240729_HumanMP_TNFa_1U/dataset/TIFs/240729_HumanMP_TNFa_1U_{:04d}.tif",
+       "first": 1,
+       "count": 2719,
+       "voxel_nm_zyx": [
+        12,
+        6,
+        6
+       ]
+      },
+      {
+       "name": "labels/nucleus_ld",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/FIB/240729_HumanMP_TNFa_1U/labels/Labels_NucleusLDs_TIFs/Labels_240729_HumanMP_TNFa_1U_nucleus_LD_{:04d}.tif",
+       "first": 1,
+       "count": 2719,
+       "voxel_nm_zyx": [
+        12,
+        6,
+        6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "FIB_240801_HumanMP_Control_crop",
+     "offset_zyx": [
+      800,
+      0,
+      1300
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      12,
+      6,
+      6
+     ],
+     "labels_note": "1 mitochondria, 2 Golgi, 3 ER, 4 nucleus, 5 lipid droplets, 6 ER of other cells",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/FIB/240801_HumanMP_Control/dataset/TIFs/240801_HumanMP_Control_{:04d}.tif",
+       "first": 1,
+       "count": 2888,
+       "voxel_nm_zyx": [
+        12,
+        6,
+        6
+       ]
+      },
+      {
+       "name": "labels/combined",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/FIB/240801_HumanMP_Control/labels/Labels_Combined_model_TIFs/Labels_240801_HumanMP_Control_combined_{:04d}.tif",
+       "first": 1,
+       "count": 2888,
+       "voxel_nm_zyx": [
+        12,
+        6,
+        6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "SBF_240424_Microphages_no_load_crop",
+     "offset_zyx": [
+      0,
+      2600,
+      1900
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      30,
+      10,
+      10
+     ],
+     "labels_note": "1 nuclei, 2 LDs below nuclei, 3 LDs above nuclei",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/SBFSEM/240424_Microphages_no_load/dataset/TIFs/240424_Microphages_no_load_R02_{:03d}.tif",
+       "first": 1,
+       "count": 257,
+       "voxel_nm_zyx": [
+        30,
+        10,
+        10
+       ]
+      },
+      {
+       "name": "labels/nuclei_ld",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/SBFSEM/240424_Microphages_no_load/labels/Labels_TIF/Labels_240424_Microphages_no_load_R02_Nuclei_{:03d}.tif",
+       "first": 1,
+       "count": 257,
+       "voxel_nm_zyx": [
+        30,
+        10,
+        10
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "empiar-10791-crops",
+   "title": "EMPIAR-10791 mouse liver: 1 crop per specimen (lean, obese1, obese2)",
+   "kind": "crops",
+   "crops": [
+    {
+     "name": "6461_lean_crop",
+     "offset_zyx": [
+      1819,
+      3000,
+      5000
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      8,
+      8,
+      8
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Raw/Gunes_WT1_8x8x8nm_3MHz.{:04d}.tif",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ]
+      },
+      {
+       "name": "labels/er",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20ER.zip",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/er_sheets",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20ER%20Sheets.zip",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/er_tubules",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20ER%20Tubules.zip",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/lipid_droplet",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20Lipid%20Droplet.zip",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/mitochondria",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20Mitochondria.zip",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/nuclear_membrane",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20Nuclear%20membrane.zip",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/plasma_membrane",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20Plasma%20Membrane.zip",
+       "first": 0,
+       "count": 5638,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "cell instance segmentation (uint32 ids; the 'plasma membrane' class)"
+      }
+     ],
+     "note": "centred in the volume; labels are whole-volume binary masks (0/255), one array per class, except plasma_membrane = cell instance ids. Obese1 er/LD/mito/nuclear-membrane slices are 10195x9110 vs raw 10200x9112 (top-left aligned; verified by overlay)"
+    },
+    {
+     "name": "6464_obese1_crop",
+     "offset_zyx": [
+      2948,
+      4100,
+      3556
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      8,
+      8,
+      8
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Raw%20reupload/6464%20Ob%20Fed%20Raw%20with%20All_T001_Z{:03d}_C09.tif",
+       "first": 1,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ]
+      },
+      {
+       "name": "labels/er",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Segmentation/6464%20Obese1%20ER.zip",
+       "first": 0,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/er_sheets",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Segmentation/6464%20Obese1%20ER%20Sheets.zip",
+       "first": 1,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)",
+       "num_regex": "_Z(\\d+)_C"
+      },
+      {
+       "name": "labels/er_tubules",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Segmentation/6464%20Obese1%20ER%20Tubules.zip",
+       "first": 1,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)",
+       "num_regex": "_Z(\\d+)_C"
+      },
+      {
+       "name": "labels/lipid_droplet",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Segmentation/6464%20Obese1%20Lipid%20Droplet.zip",
+       "first": 0,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/mitochondria",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Segmentation/6464%20Obese1%20Mitochondria.zip",
+       "first": 0,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/nuclear_membrane",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Segmentation/6464%20Obese1%20Nuclear%20membrane.zip",
+       "first": 0,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/plasma_membrane",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6464%20-%20Obese1%20Liver/6464%20Obese1%20Liver%20-%20Segmentation/6464%20Obese1%20Plasma%20membrane.zip",
+       "first": 0,
+       "count": 7896,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "cell instance segmentation (uint32 ids; the 'plasma membrane' class)"
+      }
+     ],
+     "note": "centred in the volume; labels are whole-volume binary masks (0/255), one array per class, except plasma_membrane = cell instance ids. Obese1 er/LD/mito/nuclear-membrane slices are 10195x9110 vs raw 10200x9112 (top-left aligned; verified by overlay)"
+    },
+    {
+     "name": "9430_obese2_crop",
+     "offset_zyx": [
+      3250,
+      3025,
+      3000
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      8,
+      8,
+      8
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "tiff_slices",
+       "url_template": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Raw/9430%20raw/9430%20Ob%20Fed%20Raw_T001_Z{:03d}_C07.tif",
+       "first": 1,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ]
+      },
+      {
+       "name": "labels/er",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Segmentation/9430%20Obese2%20ER.zip",
+       "first": 0,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/er_sheets",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Segmentation/9430%20Obese2%20ER%20Sheets.zip",
+       "first": 0,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/er_tubules",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Segmentation/9430%20Obese2%20ER%20Tubules.zip",
+       "first": 0,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/lipid_droplet",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Segmentation/9430%20Obese2%20Lipid%20Droplet.zip",
+       "first": 0,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/mitochondria",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Segmentation/9430%20Obese2%20Mitochondria.zip",
+       "first": 0,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/nuclear_membrane",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Segmentation/9430%20Obese2%20nuclear%20membrane.zip",
+       "first": 0,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "binary mask (0/255)"
+      },
+      {
+       "name": "labels/plasma_membrane",
+       "type": "zip_slices",
+       "zip_url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/9430%20-%20Obese2%20Liver/9430%20Obese2%20Liver%20-%20Segmentation/9430%20Obese2%20Plasma%20membrane.zip",
+       "first": 0,
+       "count": 8501,
+       "voxel_nm_zyx": [
+        8,
+        8,
+        8
+       ],
+       "note": "cell instance segmentation (uint32 ids; the 'plasma membrane' class)"
+      }
+     ],
+     "note": "centred in the volume; labels are whole-volume binary masks (0/255), one array per class, except plasma_membrane = cell instance ids. Obese1 er/LD/mito/nuclear-membrane slices are 10195x9110 vs raw 10200x9112 (top-left aligned; verified by overlay)"
+    }
+   ],
+   "extra_files": [
+    {
+     "url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/READ_ME_PLEASE.txt",
+     "dest": "READ_ME_PLEASE.txt"
+    },
+    {
+     "url": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/Segmentation%20Evaluation/Manual%20annotation%20-%20Prediction%20-%20Raw%20Slices.zip",
+     "dest": "Segmentation_Evaluation/Manual annotation - Prediction - Raw Slices.zip"
+    }
+   ]
+  },
+  {
+   "id": "asem-crops",
+   "title": "ASEM / incasem FIB-SEM: 3 crops (cells 46, 58, 61) + labels",
+   "kind": "crops",
+   "extra_files": [
+    {
+     "url": "https://asem-project.s3.amazonaws.com/README.md",
+     "dest": "README.md"
+    },
+    {
+     "url": "https://asem-project.s3.amazonaws.com/datasets_info.xlsx",
+     "dest": "datasets_info.xlsx"
+    }
+   ],
+   "crops": [
+    {
+     "name": "cell_46_crop",
+     "offset_zyx": [
+      0,
+      0,
+      1000
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      5,
+      5,
+      5
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/46/46.zarr/volumes/raw",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "name": "labels/mito",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/46/46.zarr/volumes/labels/mito",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ],
+       "note": "instance labels, full-size array (sparse)"
+      },
+      {
+       "name": "labels/er",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/46/46.zarr/volumes/labels/er",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ],
+       "note": "instance labels, full-size array (sparse)"
+      },
+      {
+       "name": "labels/golgi",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/46/46.zarr/volumes/labels/golgi",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ],
+       "note": "instance labels, full-size array (sparse)"
+      }
+     ],
+     "note": "window placed over the annotated region (from non-empty label chunks)"
+    },
+    {
+     "name": "cell_58_crop",
+     "offset_zyx": [
+      0,
+      0,
+      800
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      5,
+      5,
+      5
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/58/58.zarr/volumes/raw",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ]
+      },
+      {
+       "name": "labels/mito",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/58/58.zarr/volumes/labels/mito",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ],
+       "note": "instance labels, full-size array (sparse)"
+      },
+      {
+       "name": "labels/er",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/58/58.zarr/volumes/labels/er",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ],
+       "note": "instance labels, full-size array (sparse)"
+      },
+      {
+       "name": "labels/golgi",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/58/58.zarr/volumes/labels/golgi",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        0,
+        0
+       ],
+       "note": "instance labels, full-size array (sparse)"
+      }
+     ],
+     "note": "window placed over the annotated region (from non-empty label chunks)"
+    },
+    {
+     "name": "cell_61_crop",
+     "offset_zyx": [
+      0,
+      0,
+      2300
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      5,
+      5,
+      5
+     ],
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/61/61.zarr/volumes/raw",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        1750,
+        2900
+       ]
+      },
+      {
+       "name": "labels/mito",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/61/61.zarr/volumes/labels/mito",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "world_offset_vox_zyx": [
+        0,
+        1750,
+        2900
+       ],
+       "note": "instance labels, full-size array (sparse)"
+      },
+      {
+       "name": "labels/er",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/61/61.zarr/volumes/labels/er",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "world_offset_vox_zyx": [
+        1351,
+        2281,
+        6748
+       ],
+       "note": "small annotated block; position given by world_offset (same world grid as raw)"
+      },
+      {
+       "name": "labels/golgi",
+       "type": "zarr2",
+       "url": "https://asem-project.s3.amazonaws.com/datasets/61/61.zarr/volumes/labels/golgi",
+       "voxel_nm_zyx": [
+        5,
+        5,
+        5
+       ],
+       "offset_zyx": [
+        0,
+        0,
+        0
+       ],
+       "size_zyx": [
+        1000000,
+        1000000,
+        1000000
+       ],
+       "world_offset_vox_zyx": [
+        1000,
+        2160,
+        5497
+       ],
+       "note": "small annotated block; position given by world_offset (same world grid as raw)"
+      }
+     ],
+     "note": "window placed over the annotated region (from non-empty label chunks)"
+    }
+   ]
+  },
+  {
+   "id": "fastem-crops",
+   "title": "FAST-EM MCF-7 WebKnossos volume: 3 crops with mito GT",
+   "kind": "crops",
+   "crops": [
+    {
+     "name": "MCF7_UAc_crop1",
+     "offset_zyx": [
+      0,
+      52496,
+      27312
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      100,
+      4,
+      4
+     ],
+     "note": "inside the Mito_GT bounding box; 54 sections thick",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/EM/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "EM layer as acquired"
+      },
+      {
+       "name": "labels/mito_gt",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/Mito_GT_EM/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "mito instance GT on 'raw'"
+      },
+      {
+       "name": "raw_realigned",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/GT_EM_realigned_SOFIMA/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "SOFIMA-realigned EM of the GT region"
+      },
+      {
+       "name": "labels/mito_gt_realigned",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/Mito_GT_EM_realigned_SOFIMA/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "mito instance GT on 'raw_realigned'"
+      }
+     ]
+    },
+    {
+     "name": "MCF7_UAc_crop2",
+     "offset_zyx": [
+      0,
+      58112,
+      25776
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      100,
+      4,
+      4
+     ],
+     "note": "inside the Mito_GT bounding box; 54 sections thick",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/EM/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "EM layer as acquired"
+      },
+      {
+       "name": "labels/mito_gt",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/Mito_GT_EM/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "mito instance GT on 'raw'"
+      },
+      {
+       "name": "raw_realigned",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/GT_EM_realigned_SOFIMA/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "SOFIMA-realigned EM of the GT region"
+      },
+      {
+       "name": "labels/mito_gt_realigned",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/Mito_GT_EM_realigned_SOFIMA/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "mito instance GT on 'raw_realigned'"
+      }
+     ]
+    },
+    {
+     "name": "MCF7_UAc_crop3",
+     "offset_zyx": [
+      0,
+      54064,
+      25312
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      100,
+      4,
+      4
+     ],
+     "note": "inside the Mito_GT bounding box; 54 sections thick",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/EM/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "EM layer as acquired"
+      },
+      {
+       "name": "labels/mito_gt",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/Mito_GT_EM/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "mito instance GT on 'raw'"
+      },
+      {
+       "name": "raw_realigned",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/GT_EM_realigned_SOFIMA/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "SOFIMA-realigned EM of the GT region"
+      },
+      {
+       "name": "labels/mito_gt_realigned",
+       "type": "zarr2",
+       "axes": "cxyz",
+       "url": "https://webknossos.tnw.tudelft.nl/data/zarr/6672e7da010000f100a1be53/Mito_GT_EM_realigned_SOFIMA/1-1-1/",
+       "voxel_nm_zyx": [
+        100,
+        4,
+        4
+       ],
+       "note": "mito instance GT on 'raw_realigned'"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "platynereis-crops",
+   "title": "Platynereis 6dpf whole-body SBEM raw: 3 crops (unlabeled)",
+   "kind": "crops",
+   "crops": [
+    {
+     "name": "sbem-6dpf-1_crop1",
+     "offset_zyx": [
+      2112,
+      14016,
+      19264
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      25,
+      10,
+      10
+     ],
+     "note": "placed inside the animal (tissue mask from s6)",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "n5",
+       "url": "https://buckets.embl.de/platybrowser-n5-generic/platybrowser/rawdata/sbem-6dpf-1-whole-raw.n5/setup0/timepoint0/s0",
+       "voxel_nm_zyx": [
+        25,
+        10,
+        10
+       ]
+      }
+     ]
+    },
+    {
+     "name": "sbem-6dpf-1_crop2",
+     "offset_zyx": [
+      7040,
+      14464,
+      13248
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      25,
+      10,
+      10
+     ],
+     "note": "placed inside the animal (tissue mask from s6)",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "n5",
+       "url": "https://buckets.embl.de/platybrowser-n5-generic/platybrowser/rawdata/sbem-6dpf-1-whole-raw.n5/setup0/timepoint0/s0",
+       "voxel_nm_zyx": [
+        25,
+        10,
+        10
+       ]
+      }
+     ]
+    },
+    {
+     "name": "sbem-6dpf-1_crop3",
+     "offset_zyx": [
+      8448,
+      12032,
+      10688
+     ],
+     "size_zyx": [
+      2000,
+      2000,
+      2000
+     ],
+     "voxel_nm_zyx": [
+      25,
+      10,
+      10
+     ],
+     "note": "placed inside the animal (tissue mask from s6)",
+     "sources": [
+      {
+       "name": "raw",
+       "type": "n5",
+       "url": "https://buckets.embl.de/platybrowser-n5-generic/platybrowser/rawdata/sbem-6dpf-1-whole-raw.n5/setup0/timepoint0/s0",
+       "voxel_nm_zyx": [
+        25,
+        10,
+        10
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

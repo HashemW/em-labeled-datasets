@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+# downloaded data never goes in the repo
+data/
+out/
+*.zarr/
+*.n5/
+*.log
+slurm-*.out

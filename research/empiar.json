@@ -1,0 +1,304 @@
+[
+  {
+    "id": "EMPIAR-11037",
+    "name": "CEM-MitoLab",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-11037/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-11037",
+    "paper_url": "https://doi.org/10.1016/j.cels.2022.12.006",
+    "paper_citation": "Conrad R & Narayan K (2023) Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model trained on a diverse dataset. Cell Systems 14(1):58-71.e5. PMID 36657391, PMC9883049. Preprint: https://doi.org/10.1101/2022.03.17.484806",
+    "image_sets": [
+      {
+        "name": "CEM-MitoLab 2D image patches + mitochondrial instance label maps",
+        "empiar_directory": "data",
+        "xy_pixel_size_nm": "variable (heterogeneous sources; not given per image in EMPIAR; paper: source volumes with pixel size >40 nm excluded; per-image metadata in cem_mitolab_metadata.xlsx)",
+        "xy_dimensions_px": "mostly 224 x 224; some 512 x 512; some smaller",
+        "z_voxel_size_nm": "n/a (2D images)",
+        "z_slices": "n/a (2D); 21,860 image/mask pairs (EMPIAR counts 43,720 files = images + masks)",
+        "size_gb": 2.8
+      }
+    ],
+    "imaging_approach": "Mixed: 2D patches drawn from many sources (FIB-SEM, SBF-SEM, ssTEM, TEM etc. per paper Fig. 1d); EMPIAR lists experiment type FIB-SEM. Treat as 2D multi-modality.",
+    "organism": "Multiple (heterogeneous: various organisms/cell types from CEM1.5M / EMPIAR-11035)",
+    "tissue_cell_type": "Multiple cell types and tissues",
+    "organelles": ["mitochondria"],
+    "labeled": true,
+    "label_details": "Yes. Each image has a paired 'mask' (2D instance label map): background 0, mitochondrial instances numbered 1-255. 135,285 mitochondrial instances total.",
+    "total_size_gb": 2.8,
+    "file_formats": ["TIFF (8-bit) inside a single ZIP", "XLSX metadata"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/11037/data/",
+      "ftp_base": "ftp://ftp.ebi.ac.uk/empiar/world_availability/11037/data/",
+      "files": [
+        {"path": "data/cem_mitolab.zip", "size": "2.8G", "url": "https://ftp.ebi.ac.uk/empiar/world_availability/11037/data/cem_mitolab.zip"},
+        {"path": "data/metadata/cem_mitolab_metadata.xlsx", "size": "172K", "url": "https://ftp.ebi.ac.uk/empiar/world_availability/11037/data/metadata/cem_mitolab_metadata.xlsx"}
+      ],
+      "zip_internal_layout": "Per EMPIAR details: each sub-directory has 'images' and 'masks' subdirectories (exact internal paths UNVERIFIED - zip not opened)",
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/11037 <dest>  (pattern from EMPIAR FAQ)",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/11037/"
+    },
+    "notes": "Single-file download. EMPIAR 'image' count 43,720 = 21,860 images + 21,860 masks. Released 2022-05-10. Derived from unlabeled CEM1.5M (EMPIAR-11035). License per EMPIAR default (CC0)."
+  },
+  {
+    "id": "EMPIAR-10982",
+    "name": "MitoNet benchmark volumes (6 vEM + 1 TEM)",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-10982/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-10982",
+    "paper_url": "https://doi.org/10.1016/j.cels.2022.12.006",
+    "paper_citation": "Conrad R & Narayan K (2023) Cell Systems 14(1):58-71.e5 (MitoNet / CEM-MitoLab paper)",
+    "image_sets": [
+      {"name": "C. elegans", "empiar_directory": "data/mito_benchmarks/c_elegans", "imaging": "FIB-SEM (HPF/FS), in-house", "organism": "Caenorhabditis elegans", "xy_pixel_size_nm": 24, "xy_dimensions_px": "256 x 256", "z_voxel_size_nm": 24, "z_slices": 256, "files": ["c_elegans_em.tif (16M)", "c_elegans_mito.tif (16M)"]},
+      {"name": "Fly brain", "empiar_directory": "data/mito_benchmarks/fly_brain", "imaging": "FIB-SEM (external; Xu et al. 2021)", "organism": "Drosophila melanogaster", "tissue": "brain", "xy_pixel_size_nm": 12, "xy_dimensions_px": "255 x 255", "z_voxel_size_nm": 12, "z_slices": 256, "files": ["fly_brain_em.tif (16M)", "fly_brain_mito.tif (16M)"]},
+      {"name": "Glycolytic muscle", "empiar_directory": "data/mito_benchmarks/glycolytic_muscle", "imaging": "FIB-SEM (Bleck et al. 2018 source)", "organism": "UNVERIFIED (mouse per Bleck et al. 2018; paper text just says striated muscle)", "tissue": "glycolytic skeletal muscle", "xy_pixel_size_nm": 18, "xy_dimensions_px": "765 x 383", "z_voxel_size_nm": 18, "z_slices": 302, "files": ["glycolytic_muscle_em.tif (84M)", "glycolytic_muscle_mito.tif (84M)"]},
+      {"name": "HeLa cell", "empiar_directory": "data/mito_benchmarks/hela_cell", "imaging": "FIB-SEM, in-house", "organism": "Homo sapiens (HeLa cell line)", "xy_pixel_size_nm": 15, "xy_dimensions_px": "256 x 256", "z_voxel_size_nm": 15, "z_slices": 256, "files": ["hela_cell_em.tif (16M)", "hela_cell_mito.tif (16M)"]},
+      {"name": "Lucchi++", "empiar_directory": "data/mito_benchmarks/lucchi_pp", "imaging": "FIB-SEM (Lucchi et al.; Casser et al. re-annotation)", "organism": "Mus musculus", "tissue": "brain (hippocampus/CA1 region per original Lucchi dataset - UNVERIFIED here)", "xy_pixel_size_nm": 5, "xy_dimensions_px": "1024 x 768", "z_voxel_size_nm": 5, "z_slices": 165, "files": ["lucchi_pp_em.tif (124M)", "lucchi_pp_mito.tif (248M)"]},
+      {"name": "Salivary gland", "empiar_directory": "data/mito_benchmarks/salivary_gland", "imaging": "FIB-SEM, in-house", "organism": "Mouse per paper (EMPIAR imageset name says 'rat') - CONFLICT, UNVERIFIED", "tissue": "salivary gland", "xy_pixel_size_nm": 15, "xy_dimensions_px": "1200 x 1081", "z_voxel_size_nm": 15, "z_slices": 1260, "files": ["salivary_gland_em.tif (1.5G)", "salivary_gland_mito.tif (1.5G)"]},
+      {"name": "TEM 100-image benchmark", "empiar_directory": "data/tem_benchmark", "imaging": "TEM 2D (65 internal NCI + 35 external: Cell Image Library, Nanotomy, WormImage)", "organism": "Multiple (>=6 organisms, >=10 tissues)", "xy_pixel_size_nm": "variable; none smaller than 6 nm (paper); per-image values in tem_benchmark_metadata.csv", "xy_dimensions_px": "mostly 1024 x 1024", "z_voxel_size_nm": "n/a (2D)", "z_slices": "n/a; 100 images", "files": ["tem_benchmark/images/ (file names/sizes UNVERIFIED - listing request failed)", "tem_benchmark/masks/ (UNVERIFIED)", "tem_benchmark_metadata.csv (14K)"]}
+    ],
+    "imaging_approach": "FIB-SEM (6 isotropic volumes) + TEM 2D (100 images)",
+    "organism": "Multiple (C. elegans, Drosophila, mouse, human HeLa, etc.)",
+    "tissue_cell_type": "C. elegans whole worm, fly brain, glycolytic muscle, HeLa cells, mouse brain (Lucchi++), salivary gland; TEM mixed",
+    "organelles": ["mitochondria"],
+    "labeled": true,
+    "label_details": "Yes. Every volume has a paired *_mito.tif mitochondrial instance segmentation; TEM set has masks/ with 2D instance label maps.",
+    "total_size_gb": 4.1,
+    "file_formats": ["multi-page TIFF stacks (8-bit)", "CSV metadata"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/",
+      "files": [
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/c_elegans/c_elegans_em.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/c_elegans/c_elegans_mito.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/fly_brain/fly_brain_em.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/fly_brain/fly_brain_mito.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/glycolytic_muscle/glycolytic_muscle_em.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/glycolytic_muscle/glycolytic_muscle_mito.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/hela_cell/hela_cell_em.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/hela_cell/hela_cell_mito.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/lucchi_pp/lucchi_pp_em.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/lucchi_pp/lucchi_pp_mito.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/salivary_gland/salivary_gland_em.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/mito_benchmarks/salivary_gland/salivary_gland_mito.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/tem_benchmark_metadata.csv",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/tem_benchmark/images/  (recursive; contents UNVERIFIED)",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10982/data/tem_benchmark/masks/  (recursive; contents UNVERIFIED)"
+      ],
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/10982 <dest>",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/10982/"
+    },
+    "notes": "EMPIAR pixel_width values are in Angstrom (240, 120, 180, 150, 50, 150) = 24/12/18/15/5/15 nm; paper confirms all six are FIB-SEM with isotropic voxels. Paper Results call glycolytic muscle external but Methods say annotated in-house. Salivary gland species conflict (EMPIAR 'rat' vs paper 'mouse'). TEM benchmark directory listing could not be fetched (connection refused) - use recursive wget for images/ and masks/."
+  },
+  {
+    "id": "EMPIAR-13420",
+    "name": "SBF-SEM and FIB-SEM of human macrophages and A431 cells",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-13420/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-13420",
+    "paper_url": "https://doi.org/10.1038/s44318-025-00423-2",
+    "paper_citation": "EMBO J 2025, 44(10):2774-2802 (Ikonen & Jokitalo labs). Entry authors: Belevich I, Szkalisity A, Vanharanta L, Ikonen E, Jokitalo E.",
+    "image_sets": [
+      {"name": "FIB-SEM human macrophage, TNFa 1 h", "empiar_directory": "data/FIB/240729_HumanMP_TNFa_1U", "imaging": "FIB-SEM (1.6 kV, 1 nA, EsB)", "xy_pixel_size_nm": 6, "xy_dimensions_px": "4927 x 785 per EMPIAR (UNVERIFIED - looks odd)", "z_voxel_size_nm": 12, "z_slices": 2719, "size_gb": "~9.5 (estimate: 2719 tifs x ~3.0-4.2 MB)", "labels": "nucleus (1), lipid droplets (2) TIF sequence + MIB .model; nuclear pore positions (.ann, .landmarkAscii, .psi)"},
+      {"name": "FIB-SEM human macrophage, control", "empiar_directory": "data/FIB/240801_HumanMP_Control", "imaging": "FIB-SEM", "xy_pixel_size_nm": 6, "xy_dimensions_px": "UNVERIFIED (not in EMPIAR)", "z_voxel_size_nm": 12, "z_slices": 2888, "size_gb": "UNVERIFIED", "labels": "6 classes: 1 mitochondria, 2 Golgi, 3 ER, 4 nucleus, 5 lipid droplets, 6 ER of other cells (TIF sequence + MIB .model 287M); nuclear pore positions/clusters"},
+      {"name": "SBF-SEM A431 cell, complete medium", "empiar_directory": "data/SBFSEM/231106_A431_CLEM_CM1_3J", "imaging": "SBF-SEM (2.5 kV)", "xy_pixel_size_nm": 15, "xy_dimensions_px": "UNVERIFIED", "z_voxel_size_nm": 30, "z_slices": 162, "labels": "1 LDs above nucleus, 2 LDs below nucleus, 3 nucleus (Labels_TIF/ + .model 12M)"},
+      {"name": "SBF-SEM macrophage OA+cholesterol 2 h (7T)", "empiar_directory": "data/SBFSEM/240306_Microphages_OA-Chol_7T", "imaging": "SBF-SEM", "xy_pixel_size_nm": 15, "xy_dimensions_px": "UNVERIFIED", "z_voxel_size_nm": 30, "z_slices": 143, "labels": "Labels_TIF/ + Labels_240306_OA-Chol_7T_R02.model (9.5M); classes UNVERIFIED (likely LDs/nucleus)"},
+      {"name": "SBF-SEM macrophage OA+cholesterol 2 h (AV-1)", "empiar_directory": "data/SBFSEM/240307_Microphages_OA-Chol_AV-1", "imaging": "SBF-SEM", "xy_pixel_size_nm": 10, "xy_dimensions_px": "UNVERIFIED", "z_voxel_size_nm": 30, "z_slices": 154, "labels": "UNVERIFIED (labels/ not listed)"},
+      {"name": "SBF-SEM macrophage OA+cholesterol 2 h (AV-3)", "empiar_directory": "data/SBFSEM/240307_Microphages_OA-Chol_AV-3", "imaging": "SBF-SEM", "xy_pixel_size_nm": 15, "xy_dimensions_px": "UNVERIFIED", "z_voxel_size_nm": 30, "z_slices": 207, "labels": "UNVERIFIED (labels/ not listed)"},
+      {"name": "SBF-SEM macrophage, control (no load)", "empiar_directory": "data/SBFSEM/240424_Microphages_no_load", "imaging": "SBF-SEM", "xy_pixel_size_nm": 10, "xy_dimensions_px": "UNVERIFIED", "z_voxel_size_nm": 30, "z_slices": 257, "labels": "Labels_TIF/ + Labels_240424_Microphages_no_load_R02_Nuclei.model (61M); nuclei (other classes UNVERIFIED)"}
+    ],
+    "imaging_approach": "FIB-SEM (2 volumes, 6x6x12 nm) + SBF-SEM (5 volumes, 10-15 nm xy, 30 nm z)",
+    "organism": "Homo sapiens",
+    "tissue_cell_type": "Primary human monocyte-derived macrophages (control, TNFa, oleic acid + cholesterol loaded); A431 epidermoid carcinoma cells",
+    "organelles": ["lipid droplets", "nucleus", "nuclear pores", "mitochondria", "Golgi", "ER"],
+    "labeled": true,
+    "label_details": "Yes - every volume has a labels/ folder with MIB .model and TIF label sequences. FIB control: 6 classes (mito, Golgi, ER, nucleus, LDs, ER of other cells); FIB TNFa: nucleus + LDs; SBF: LDs/nucleus. Nuclear-pore point annotations for FIB sets.",
+    "total_size_gb": 37.9,
+    "file_formats": ["TIFF 2D slice sequences (8-bit)", "MIB .model", "XML per-slice metadata (dataset/meta)", ".ann/.landmarkAscii/.psi point files", "README text"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/",
+      "layout": {
+        "data/README": "955 B",
+        "data/FIB/240729_HumanMP_TNFa_1U/": ["README (251 B)", "dataset/TIFs/240729_HumanMP_TNFa_1U_0001.tif ... _2719.tif (~3.0-4.2M each; last confirmed _2714)", "dataset/meta/meta_slice_01655_z=19.2803um.xml, meta_slice_01656_z=19.2950um.xml, meta_slice_01657_z=19.3069um.xml (6K each)", "labels/240729_HumanMP_TNFa_NuclearPores.ann (785K)", "labels/240729_HumanMP_TNFa_NuclearPores.landmarkAscii (49K)", "labels/240729_HumanMP_TNFa_NuclearPores_clusters.psi (89K)", "labels/Labels_240729_HumanMP_TNFa_1U_nucleus_LD.model (87M)", "labels/Labels_NucleusLDs_TIFs/ (contents UNVERIFIED)", "labels/README (561 B)", "snapshot/ (contents UNVERIFIED)"],
+        "data/FIB/240801_HumanMP_Control/": ["README (220 B)", "dataset/ (presumably TIFs/ + meta/; UNVERIFIED)", "labels/240801_HumanMP_Control_NucleiPores.ann (874K)", "labels/240801_HumanMP_Control_NucleiPores.landmarkAscii (127K)", "labels/240801_HumanMP_Control_NucleiPores_clusters.psi (98K)", "labels/Labels_240801_HumanMP_Control_combined.model (287M)", "labels/Labels_Combined_model_TIFs/", "labels/README (661 B)", "snapshot/"],
+        "data/SBFSEM/231106_A431_CLEM_CM1_3J/": ["README (205 B)", "dataset/ (UNVERIFIED contents)", "labels/Labels_231106_A431_CLEM_CM1_3J_R01_LDs_localization.model (12M)", "labels/Labels_TIF/", "labels/README (307 B)"],
+        "data/SBFSEM/240306_Microphages_OA-Chol_7T/": ["labels/Labels_240306_OA-Chol_7T_R02.model (9.5M)", "labels/Labels_TIF/", "labels/README (277 B)", "dataset/ (UNVERIFIED)"],
+        "data/SBFSEM/240307_Microphages_OA-Chol_AV-1/": "UNVERIFIED (not listed)",
+        "data/SBFSEM/240307_Microphages_OA-Chol_AV-3/": "UNVERIFIED (not listed)",
+        "data/SBFSEM/240424_Microphages_no_load/": ["labels/Labels_240424_Microphages_no_load_R02_Nuclei.model (61M)", "labels/Labels_TIF/", "labels/README (317 B)", "dataset/ (UNVERIFIED)"]
+      },
+      "recommended": "Recursive HTTPS mirror, e.g. wget -r -np -nH --cut-dirs=3 -R 'index.html*' https://ftp.ebi.ac.uk/empiar/world_availability/13420/data/ ; or Aspera/Globus for the 37.9 GB",
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/13420 <dest>",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/13420/"
+    },
+    "notes": "EXCEEDS 30 GB (37.9 GB). Released 2026-06-01. EMPIAR pixel widths are Angstrom (60/150/100) consistent with README voxel sizes in um (0.006x0.006x0.012 FIB; 0.015/0.010 x 0.030 SBF). EMPIAR imageset 1 has a frame range 0-255 and dimensions 4927x785 that look like data-entry artefacts. Per-set GB sizes not available from API except estimate for TNFa FIB TIFs."
+  },
+  {
+    "id": "EMPIAR-10994",
+    "name": "HeLa metaphase SBF-SEM (REEP3/4 ER morphology)",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-10994/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-10994",
+    "paper_url": "https://doi.org/10.1091/mbc.e18-11-0698",
+    "paper_citation": "Kumar D et al. (2019) REEP3 and REEP4 determine the tubular morphology of the endoplasmic reticulum during mitosis. Mol Biol Cell 30:1377-1389. Entry authors Belevich I, Jokitalo E.",
+    "image_sets": [
+      {"name": "HeLa Control metaphase cell, raw", "empiar_directory": "data/160621_HeLa_Control/01_original_images", "format": "DM4 16-bit", "xy_pixel_size_nm": 15.1884, "xy_dimensions_px": "1280 x 1280", "z_voxel_size_nm": 30, "z_slices": 578, "file_pattern": "r01a_BSED_roi_00_slice_0000.dm4 ... r01f_BSED_roi_00_slice_0120.dm4 (6 runs r01a-r01f; ~2.7-3.3M each)"},
+      {"name": "HeLa Control metaphase cell, processed", "empiar_directory": "data/160621_HeLa_Control/02_processed_dataset", "format": "TIFF 8-bit + Amira .am", "xy_pixel_size_nm": 15.1884, "xy_dimensions_px": "1453 x 1477", "z_voxel_size_nm": 30, "z_slices": 578, "file_pattern": "160621_HeLa_R01_001.tif ... 160621_HeLa_R01_578.tif (2.0M each) + 160621_HeLa_R01.am (1.2G)"},
+      {"name": "HeLa REEP3/4 KD (+LBR) metaphase cell, raw", "empiar_directory": "data/161107_HeLa_REEP3-4_KD_LBR/01_original_images", "format": "DM4 16-bit", "xy_pixel_size_nm": 14.8183, "xy_dimensions_px": "1400 x 1400", "z_voxel_size_nm": 30, "z_slices": 474, "file_pattern": "UNVERIFIED (not listed)"},
+      {"name": "HeLa REEP3/4 KD (+LBR) metaphase cell, processed", "empiar_directory": "data/161107_HeLa_REEP3-4_KD_LBR/02_processed_dataset", "format": "TIFF 8-bit", "xy_pixel_size_nm": 14.8183, "xy_dimensions_px": "1600 x 1586", "z_voxel_size_nm": 30, "z_slices": 471, "file_pattern": "UNVERIFIED (not listed)"}
+    ],
+    "imaging_approach": "SBF-SEM",
+    "organism": "Homo sapiens",
+    "tissue_cell_type": "HeLa cells in metaphase (control; REEP3/4 knockdown with LBR overexpression)",
+    "organelles": ["ER", "mitochondria", "chromosomes", "centrioles", "lipid droplets"],
+    "labeled": true,
+    "label_details": "Yes (03_models). Control: MIB model + TIF; classes 0 exterior, 1 mitochondria, 2 ER, 3 ER within 320 nm of chromosomes, 4 chromosomes, 5 centrioles, 6 peripheral ER; plus cell-outline mask. Covers one quadrant of the cell. KD: 0 exterior, 1 mitochondria, 2 lipid droplets, 3 ER, 4 chromosomes.",
+    "total_size_gb": 8.7,
+    "file_formats": ["DM4 (raw, 16-bit)", "TIFF slices (processed, 8-bit)", "Amira .am", "MIB .model / .mask", "TIF label stacks"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/10994/data/",
+      "layout": {
+        "data/160621_HeLa_Control/": ["01_original_images/ (578 .dm4)", "02_processed_dataset/ (578 .tif + 160621_HeLa_R01.am 1.2G)", "03_models/Labels_160621_HeLa_OrganelleModel.model (20M)", "03_models/Labels_cell_outlines.mask (16M)", "03_models/OrganelleModel_TIF/", "03_models/CellOutlineModel_TIF/", "03_models/readme.txt (536 B)", "04_snapshots/ (UNVERIFIED contents)"],
+        "data/161107_HeLa_REEP3-4_KD_LBR/": ["01_original_images/", "02_processed_dataset/", "03_models/Labels_161107_HeLa_REEP3-4_KD_LBR.model (27M)", "03_models/Model_TIF/", "03_models/readme.txt (330 B)", "04_snapshots/"]
+      },
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/10994 <dest>",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/10994/"
+    },
+    "notes": "EMPIAR pixel width 151.884 / 148.183 Angstrom = 15.19 / 14.82 nm; z = 30 nm (stated in imageset details). To save space, scripts can skip 01_original_images (DM4) and the .am file and take 02_processed_dataset + 03_models."
+  },
+  {
+    "id": "EMPIAR-13156",
+    "name": "HeLa control / STARD3 WT / STARD3 FA/YA FIB-SEM",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-13156/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-13156",
+    "paper_url": "https://doi.org/10.1038/s44318-026-00705-3",
+    "paper_citation": "Eichler J et al. (2026) STARD3 regulates lysosome positioning and contacts via a GSK3-controlled phosphorylation switch. EMBO J. PMID 41741634, PMC13044316. Preprint 10.1101/2025.05.29.656564",
+    "image_sets": [
+      {"name": "HeLa/Ctrl", "empiar_directory": "data/HeLaWT_Raw", "xy_pixel_size_nm": 8, "xy_dimensions_px": "2768 x 1188", "z_voxel_size_nm": 8, "z_slices": 994, "subdirs": ["1-200/", "201-400/", "401-600/", "601-800/", "801-994/"], "slice_pattern": "1-200/ROI_CICGFA_001.tif ... ROI_CICGFA_200.tif (~3.1M each)", "mask_files": ["ER.tif (46M)", "ER_ROI.tif (42M)", "Endosomes.tif (44M)", "Endosomes_ROI.tif (42M)", "Mitochondria.tif (47M)", "Mitochondria_ROI.tif (43M)"], "roi": "start (1536,64,5), size 1200x900x444 px"},
+      {"name": "HeLa/STARD3 (WT)", "empiar_directory": "data/HeLaSTARD3_WT_Raw", "xy_pixel_size_nm": 5, "xy_dimensions_px": "2418 x 2748", "z_voxel_size_nm": 10, "z_slices": 810, "subdirs": ["1-200/", "201-400/", "401-600/", "601-810/"], "slice_pattern": "UNVERIFIED", "mask_files": ["ER.tif (56M)", "ER_ROI.tif (55M)", "Endosomes.tif (56M)", "Endosomes_ROI.tif (55M)", "Mitochondria.tif (59M)", "Mitochondria_ROI.tif (54M)"], "roi": "start (16,151,428), size 1400x1100x382 px"},
+      {"name": "HeLa/STARD3 FA/YA", "empiar_directory": "data/HeLaSTARD3_FA_YA_Raw", "xy_pixel_size_nm": 8, "xy_dimensions_px": "2516 x 1092", "z_voxel_size_nm": 8, "z_slices": 600, "subdirs": ["1-100/", "101-200/", "201-300/", "301-400/", "401-500/", "501-600/"], "slice_pattern": "UNVERIFIED", "mask_files": ["ER.tif (21M)", "ER_ROI.tif (20M)", "Endosomes.tif (22M)", "Endosomes_ROI.tif (22M)", "Mitochondria.tif (22M)", "Mitochondria_ROI.tif (21M)"], "roi": "start (386,50,120), size 700x700x449 px"}
+    ],
+    "imaging_approach": "FIB-SEM (Zeiss Auriga 60)",
+    "organism": "Homo sapiens",
+    "tissue_cell_type": "HeLa cells (control; expressing STARD3 WT; expressing STARD3 FA/YA FFAT mutant)",
+    "organelles": ["late endosomes/lysosomes", "ER", "mitochondria", "ER-endosome contact sites"],
+    "labeled": true,
+    "label_details": "Yes. Per volume: ER, Endosomes (LE/Lys), Mitochondria as whole-volume (excluding ROI; DeepSCEM U-Net predictions) and *_ROI.tif (manual Fiji Segmentation Editor annotations of an ROI sub-stack). ROI coords ImageJ convention, origin top-left of first slice.",
+    "total_size_gb": 10.3,
+    "file_formats": ["TIFF 2D slices (8-bit) in numbered sub-folders", "multi-page TIFF masks"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/13156/data/",
+      "recommended": "wget -r -np -nH --cut-dirs=3 -R 'index.html*' https://ftp.ebi.ac.uk/empiar/world_availability/13156/data/",
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/13156 <dest>",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/13156/"
+    },
+    "notes": "Voxel sizes from paper Methods (Europe PMC full text): Ctrl 8x8x8 nm, STARD3 5x5x10 nm, FA/YA 8x8x8 nm; EMPIAR pixel widths 80/50/80 Angstrom agree. Released 2026-02-26. Slice listing in HeLaWT_Raw/1-200 showed 199 entries (one index possibly missing - UNVERIFIED)."
+  },
+  {
+    "id": "EMPIAR-12885",
+    "name": "AIVE source data (AI-directed voxel extraction)",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-12885/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-12885",
+    "paper_url": "https://doi.org/10.1083/jcb.202411138",
+    "paper_citation": "Padman BS, Lindblom R, Lazarou M (2025) AI-directed voxel extraction and volume EM identify intrusions as sites of mitochondrial contact. J Cell Biol 224(10):e202411138. PMC12309365. Preprint 10.1101/2024.11.20.624606",
+    "image_sets": [
+      {"name": "Dataset1 test ROI", "empiar_directory": "data/DATASET1_TEST_ROI", "xy_pixel_size_nm": 3.2552, "xy_dimensions_px": "740 x 370", "z_voxel_size_nm": 10, "z_slices": 121, "files": ["FIBRUN4 - TEST REGION ROI CROPPED.tif (32M)"]},
+      {"name": "Model comparisons - membrane segmentation (6 models x raw/AIVE)", "empiar_directory": "data/DATASET1_TEST_ROI/Model_comparisons_-_Membrane_Segmentation", "xy_pixel_size_nm": 3.2552, "xy_dimensions_px": "740 x 370", "z_voxel_size_nm": 10, "z_slices": 121, "files": ["Model (1) - AIVE - RF.tif", "Model (1) - Raw - RF.tif", "Model (2) - AIVE - J48.tif", "Model (2) - Raw - J48.tif", "Model (3) - AIVE - MLP.tif", "Model (3) - Raw - MLP.tif", "Model (4) - AIVE - DT.tif", "Model (4) - Raw - DT.tif", "Model (5) - AIVE - JRIP.tif", "Model (5) - Raw - JRIP.tif", "Model (6) - AIVE - PART.tif", "Model (6) - Raw - PART.tif"], "size_note": "126M each"},
+      {"name": "Human vs U-Net mito classification", "empiar_directory": "data/DATASET1_TEST_ROI/Human_Vs_Unet_-_Mito_Classification", "xy_pixel_size_nm": 3.2552, "xy_dimensions_px": "740 x 370", "z_voxel_size_nm": 10, "z_slices": 121, "files": ["Membrane predictions (RF).tif (126M)", "Mito1 - AIVE - HUMAN.tif", "Mito1 - Raw - HUMAN.tif", "Mito2 - AIVE - HUMAN.tif", "Mito2 - Raw - HUMAN.tif", "Mito3 - AIVE - 1337Unet.tif", "Mito3 - Raw - 1337Unet.tif", "Mito4 - AIVE - 1338Unet.tif", "Mito4 - Raw - 1338Unet.tif"], "size_note": "mito files 32M each"},
+      {"name": "Overview Dataset 1 (HeLa)", "empiar_directory": "data/Set1_-_AIVE_SOURCE_DATA", "xy_pixel_size_nm": 6.5104, "xy_dimensions_px": "2960 x 720", "z_voxel_size_nm": 10, "z_slices": 724, "files": ["Dataset1_overview.tif (1.4G)", "Dataset1_overview.tif_XYZCLAHE.tif (1.4G)", "Dataset1_overview - ORGANELLE CLASS LABELS.tif (47M)", "Dataset1_overview CLASS IDS.txt (72 B)", "Dataset1_overview_MembranePredictions.tif (5.7G)"]},
+      {"name": "Overview Dataset 2 (HeLa)", "empiar_directory": "data/Set2_-_AIVE_SOURCE_DATA", "xy_pixel_size_nm": 6.5104, "xy_dimensions_px": "2930 x 806", "z_voxel_size_nm": 10, "z_slices": 858, "files": ["Dataset2_overview.tif (1.9G)", "Dataset2_overview.tif_XYZCLAHE.tif (1.9G)", "Dataset2_overview - ORGANELLE CLASS LABELS.tif (46M)", "Dataset2_overview CLASS IDS.txt (76 B)", "Dataset2_overview_MembranePredictions.tif (7.5G)"]},
+      {"name": "Overview Dataset 3 (HeLa)", "empiar_directory": "data/Set3_-_AIVE_SOURCE_DATA", "xy_pixel_size_nm": 6.5104, "xy_dimensions_px": "2948 x 830", "z_voxel_size_nm": 10, "z_slices": 618, "files": ["Dataset3_overview.tif (1.4G)", "Dataset3_overview.tif_XYZCLAHE.tif (1.4G)", "Dataset3_overview - ORGANELLE CLASS LABELS.tif (34M)", "Dataset3_overview CLASS IDS.txt (85 B)", "Dataset3_overview_MembranePredictions.tif (5.6G)"]},
+      {"name": "Overview Dataset 4 - Muscle (mouse tibialis anterior)", "empiar_directory": "data/Set4_-_AIVE_OUTPUTS and data/Set4_-_AIVE_SOURCE_DATA", "xy_pixel_size_nm": 16, "xy_dimensions_px": "500 x 500", "z_voxel_size_nm": 20, "z_slices": 311, "files": ["Set4_-_AIVE_OUTPUTS/Dataset4_overview_MITOS.tif (74M)", "Set4_-_AIVE_OUTPUTS/Dataset4_overview_SarcoR.tif (74M)", "Set4_-_AIVE_SOURCE_DATA/Dataset4_MitoClasss.tif (74M)", "Set4_-_AIVE_SOURCE_DATA/Dataset4_overview.tif (74M)", "Set4_-_AIVE_SOURCE_DATA/Dataset4_overview.tif_XYZCLAHE.tif (74M)", "data/Dataset4_overview.tif (74M, top level)", "data/Dataset4_overview_MembranePredictions.tif (297M, top level)"]}
+    ],
+    "imaging_approach": "FIB-SEM (FEI Helios G4 UX, BSE, 3.255 nm/px, 10 nm slices; overviews half-scale 6.51 nm)",
+    "organism": "Homo sapiens (HeLa, Datasets 1-3); Mus musculus C57BL/6J (muscle, Dataset 4)",
+    "tissue_cell_type": "HeLa cells; mouse tibialis anterior skeletal muscle",
+    "organelles": ["mitochondria", "mitochondrial contact sites / intrusions", "ER", "lipid droplets", "early/late endosomes", "Golgi", "nucleus", "plasma membrane", "vesicles", "cytoskeleton", "sarcoplasmic reticulum (muscle)"],
+    "labeled": true,
+    "label_details": "Yes. Datasets 1-3: 10-class organelle class label volume (e.g. MITOS, LDS, EARLYENDO, LATEENDO, GOLGI, NUC, CYTOSKEL, ER, PLASMEM, VESC; Set2 includes CHROMATIN instead of GOLGI; class ID mapping in '* CLASS IDS.txt') + RF membrane probability maps (0-1). Dataset 4: mito class mask + SR mask. Test ROI: human + U-Net mito annotations and 6 ML model membrane predictions.",
+    "total_size_gb": 32.8,
+    "file_formats": ["multi-page TIFF stacks (8-bit)", "TXT class-ID maps"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/12885/data/",
+      "top_level_entries": ["DATASET1_Overview/ (contains Set1_-_AIVE_SOURCE_DATA/ with Dataset1_overview.tif 1.4G, labels 47M, CLASS IDS.txt - duplicate subset of Set1)", "DATASET1_TEST_ROI/", "DATASET4_Muscle/ (contains Set4_-_AIVE_SOURCE_DATA/ with Dataset4_MitoClasss.tif, Dataset4_overview.tif - duplicates)", "Dataset4_overview.tif (74M)", "Dataset4_overview_MembranePredictions.tif (297M)", "Set1_-_AIVE_SOURCE_DATA/", "Set2_-_AIVE_SOURCE_DATA/", "Set3_-_AIVE_SOURCE_DATA/", "Set4_-_AIVE_OUTPUTS/", "Set4_-_AIVE_SOURCE_DATA/"],
+      "url_encoding_note": "File/dir names contain spaces and parentheses; URL-encode (space=%20, '(' and ')' usually fine). Example: https://ftp.ebi.ac.uk/empiar/world_availability/12885/data/Set1_-_AIVE_SOURCE_DATA/Dataset1_overview%20-%20ORGANELLE%20CLASS%20LABELS.tif",
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/12885 <dest>",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/12885/"
+    },
+    "notes": "EXCEEDS 30 GB (32.8 GB total; sum of listed files ~32.6 GB). ~22 GB of that is RF *_MembranePredictions.tif; raw overview + CLAHE + class labels for Sets 1-3 is ~9.8 GB (raw + labels only ~4.8 GB) - scripts can selectively skip MembranePredictions and duplicate DATASET1_Overview/ and DATASET4_Muscle/ folders. EMPIAR pixel widths here (3.2552, 6.5104, 16.0) are in nm (paper: 3.255 nm/px), unlike most entries which use Angstrom. EMPIAR record lists journal as bioRxiv but DOI is the JCB paper. Paper reports two muscle datasets; EMPIAR has one muscle overview (Dataset 4)."
+  },
+  {
+    "id": "EMPIAR-11746",
+    "name": "U-2 OS cell FIB-SEM (+ Zenodo 10043461 DeepMIB projects)",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-11746/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-11746",
+    "zenodo_url": "https://zenodo.org/records/10043461",
+    "zenodo_doi": "https://doi.org/10.5281/zenodo.10043461",
+    "paper_url": "https://doi.org/10.1038/s41556-024-01381-3",
+    "paper_citation": "Czymmek KJ, Belevich I, Bischof J, Mathur A, Collinson L, Jokitalo E (2024) Accelerating data sharing and reuse in volume electron microscopy. Nat Cell Biol 26(4):498-503. Related EMPIAR-11849. Zenodo cites MIB (10.1371/journal.pbio.1002340) and DeepMIB (10.1371/journal.pcbi.1008374).",
+    "image_sets": [
+      {"name": "Aligned, pre-processed FIB-SEM of one U2-OS cell", "empiar_directory": "data/Images", "xy_pixel_size_nm": 2.5, "xy_dimensions_px": "3394 x 1385", "z_voxel_size_nm": 5, "z_slices": 1168, "files": "U2OS_cell_0001.tif ... U2OS_cell_1168.tif (4.5M each, ~5.3 GB)"},
+      {"name": "Organelle labels", "empiar_directory": "data/Labels", "xy_pixel_size_nm": 2.5, "xy_dimensions_px": "3394 x 1385", "z_voxel_size_nm": 5, "z_slices": 1168, "files": "Labels_U2OS_cell_0001.tif ... Labels_U2OS_cell_1168.tif (~60-82K each, ~0.08 GB)"},
+      {"name": "Zenodo 10043461 DeepMIB training/prediction projects", "xy_pixel_size_nm": "UNVERIFIED (see PDF in record; includes a bin2 crop)", "files": [
+        {"key": "0_Segmentation.zip", "bytes": 1489995412, "md5": "f8c69dcde972f550fb5e55cb323ff9fc"},
+        {"key": "1_Golgi.zip", "bytes": 943294831, "md5": "e5ddafaf2252d32f3db0ddb9519237b7"},
+        {"key": "1_NE.zip", "bytes": 135662003, "md5": "003880e9b2e8782c0224e5aab6af097c"},
+        {"key": "1_ER.zip", "bytes": 1604345905, "md5": "c6120681afd47483c7e143a7437aed72"},
+        {"key": "1_Mitochondria.zip", "bytes": 461692643, "md5": "2652b008c58556f4e269497e0bb57e3e"},
+        {"key": "2_Predict_crop.zip", "bytes": 185867516, "md5": "5962e246b513bbf92163bbe261a4594f"},
+        {"key": "2_Predict_crop_bin2.zip", "bytes": 43025436, "md5": "1ac2e4036656dd7ea6e52418303bf105"},
+        {"key": "Datasets and DeepMIB projects for segmentation of organelles of U2OS cell.pdf", "bytes": 863570, "md5": "aff0e47cb8ac832c444b6133e5c6e995"}
+      ], "size_gb": 4.86}
+    ],
+    "imaging_approach": "FIB-SEM (EsB + InLens-SE fused 70/30, aligned in MIB)",
+    "organism": "Homo sapiens",
+    "tissue_cell_type": "U-2 OS (U2-OS) human bone osteosarcoma epithelial cell line, single cell",
+    "organelles": ["nuclear envelope", "lipid droplets", "lysosomes", "mitochondria", "Golgi", "ER", "peroxisomes"],
+    "labeled": true,
+    "label_details": "Yes (EMPIAR data/Labels, TIFF): 1 nuclear envelope (DL), 2 lipid droplets (manual), 3 lysosomes (manual), 4 mitochondria (DL), 5 Golgi (DL), 6 ER (DL), 7 peroxisomes (manual), 8 other unclassified. Zenodo: ground-truth + DeepMIB projects for NE, mitochondria, ER, Golgi.",
+    "total_size_gb": "EMPIAR 5.2 GB + Zenodo ~4.86 GB (4,864,747,316 bytes) = ~10.1 GB",
+    "file_formats": ["TIFF 2D slices (8-bit)", "TIFF label slices", "ZIP (DeepMIB projects)", "PDF"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/11746/data/",
+      "empiar_pattern": "https://ftp.ebi.ac.uk/empiar/world_availability/11746/data/Images/U2OS_cell_%04d.tif (1..1168); https://ftp.ebi.ac.uk/empiar/world_availability/11746/data/Labels/Labels_U2OS_cell_%04d.tif (1..1168)",
+      "zenodo_api": "https://zenodo.org/api/records/10043461",
+      "zenodo_file_url_pattern": "https://zenodo.org/api/records/10043461/files/<key>/content  (e.g. https://zenodo.org/api/records/10043461/files/1_Mitochondria.zip/content)",
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/11746 <dest>",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/11746/"
+    },
+    "notes": "EMPIAR pixel width 25 Angstrom = 2.5 nm; z-step 5 nm (details: 0.0025 x 0.0025 x 0.005 um). EMPIAR released 2024-02-15; Labels dir timestamp 2026-10-02. Zenodo license CC BY 4.0, published 2023-10-26; files endpoint returns 8 files (record summary text mentioning 13 not confirmed). Zenodo API intermittently returned 504."
+  },
+  {
+    "id": "EMPIAR-10791",
+    "name": "Mouse liver FIB-SEM (lean/obese; ER architecture)",
+    "dataset_url": "https://www.ebi.ac.uk/empiar/EMPIAR-10791/",
+    "dataset_doi": "https://doi.org/10.6019/EMPIAR-10791",
+    "paper_url": "https://doi.org/10.1038/s41586-022-04488-5",
+    "paper_citation": "Parlakgul G, Arruda AP, Pang S, et al., Xu CS, Hotamisligil GS (2022) Regulation of liver subcellular architecture controls metabolic homeostasis. Nature 603:736-742. PMID 35264794. Preprint 10.1101/2020.11.18.387803",
+    "image_sets": [
+      {"name": "6461 Lean Liver", "dir": "6461 - Lean Liver", "xy_pixel_size_nm": 8, "xy_dimensions_px": "12000 x 8000", "z_voxel_size_nm": 8, "z_slices": 5638, "raw_files": "6461 Lean Liver - Raw/Gunes_WT1_8x8x8nm_3MHz.0000.tif ... (92M each; ~519 GB est.)", "segmentation_zips": {"6461 Lean ER.zip": "14G", "6461 Lean ER Sheets.zip": "5.0G", "6461 Lean ER Tubules.zip": "11G", "6461 Lean Lipid Droplet.zip": "1.0G", "6461 Lean Mitochondria.zip": "4.7G", "6461 Lean Nuclear membrane.zip": "853M", "6461 Lean Plasma Membrane.zip": "3.2G"}},
+      {"name": "6464 Obese1 Liver", "dir": "6464 - Obese1 Liver", "xy_pixel_size_nm": 8, "xy_dimensions_px": "9112 x 10200", "z_voxel_size_nm": 8, "z_slices": 7896, "subdirs": ["6464 Obese1 Liver - Raw/", "6464 Obese1 Liver - Raw reupload/", "6464 Obese1 Liver - Segmentation/"], "file_names": "UNVERIFIED"},
+      {"name": "9430 Obese2 Liver", "dir": "9430 - Obese2 Liver", "xy_pixel_size_nm": 8, "xy_dimensions_px": "8000 x 8050", "z_voxel_size_nm": 8, "z_slices": 8501, "subdirs": ["9430 Obese2 Liver - Raw/", "9430 Obese2 Liver - Segmentation/"], "file_names": "UNVERIFIED"},
+      {"name": "1857 Obese Climp-63 Liver", "dir": "1857 - Obese Climp-63 Liver", "xy_pixel_size_nm": 8, "xy_dimensions_px": "9700 x 9650", "z_voxel_size_nm": 8, "z_slices": 3629, "subdirs": ["1857 Obese Climp-63 Raw/", "1857 Obese Climp-63 Segmentation/"], "file_names": "UNVERIFIED"},
+      {"name": "Segmentation Evaluation", "dir": "Segmentation Evaluation", "xy_pixel_size_nm": 16, "xy_dimensions_px": "150 x 150 (EMPIAR); test volumes 300x300x50 voxels", "z_voxel_size_nm": "16 (downsampled, assumed isotropic - UNVERIFIED)", "z_slices": "25 images per EMPIAR", "files": ["Manual annotation - Prediction - Raw Slices.zip (19M)", "READ_ME_PLEASE.txt (1.5K)"]}
+    ],
+    "imaging_approach": "FIB-SEM (enhanced FIB-SEM, Janelia/Xu & Hess), 8 nm isotropic",
+    "organism": "Mus musculus",
+    "tissue_cell_type": "Liver (hepatocytes); lean vs obese mice, obese + Climp-63 overexpression (obesity model ob/ob vs diet UNVERIFIED)",
+    "organelles": ["ER", "ER sheets", "ER tubules", "mitochondria", "lipid droplets", "plasma membrane", "nuclear membrane"],
+    "labeled": true,
+    "label_details": "Yes. Per-sample zipped segmentation image series for ER, ER sheets, ER tubules, mitochondria, lipid droplets, cell (plasma) membrane, nuclear membrane (not for 1857 Climp-63). Plus evaluation set with manual annotations + predictions.",
+    "total_size_gb": 2800,
+    "file_formats": ["TIFF 2D slices (8-bit, ~92 MB each)", "ZIP of segmentation TIFF series", "TXT readme"],
+    "download": {
+      "https_base": "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/",
+      "top_level_dirs": [
+        "Parlakgul - Arruda et al - High resolution 3D imaging of liver subcellular architecture and its link to metabolic function/FIB-SEM Raw and Segmentation Data/  (original 2022 upload)",
+        "Parlakgul et al - Regulation of liver subcellular architecture controls metabolic homeostasis/FIB-SEM Raw and Segmentation Data/  (2025-12 / 2026-03 re-upload; same structure)"
+      ],
+      "example_urls": [
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Segmentation/6461%20Lean%20Mitochondria.zip",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/6461%20-%20Lean%20Liver/6461%20Lean%20Liver%20-%20Raw/Gunes_WT1_8x8x8nm_3MHz.0000.tif",
+        "https://ftp.ebi.ac.uk/empiar/world_availability/10791/data/Parlakgul%20et%20al%20-%20Regulation%20of%20liver%20subcellular%20architecture%20controls%20metabolic%20homeostasis/FIB-SEM%20Raw%20and%20Segmentation%20Data/Segmentation%20Evaluation/Manual%20annotation%20-%20Prediction%20-%20Raw%20Slices.zip"
+      ],
+      "mirror": "PDBj mirror: https://ftp.empiar.pdbj.org/archive/10791/data/ (same layout)",
+      "aspera": "ascp -QT -l 200M -P33001 -i <aspera key> emp_ext3@fasp.ebi.ac.uk:/10791 <dest>  (strongly recommended for this size)",
+      "globus": "Collection 'EMBL-EBI Public Data', path /gridftp/empiar/world_availability/10791/"
+    },
+    "notes": "EXCEEDS 30 GB by far (2.8 TB per EMPIAR; README: ~2 TB compressed / ~17 TB decompressed). The two top-level folders appear to be duplicate copies (old and re-uploaded) - download only one. 6464 has an extra 'Raw reupload' folder. EMPIAR pixel width here is entered in nm (8.0 = 8 nm), not Angstrom. Practical subset: Segmentation Evaluation zip (19M) or a single segmentation zip (e.g. 6461 Lean Mitochondria.zip 4.7G) plus matching raw slices. Directory names contain spaces - URL-encode."
+  }
+]
