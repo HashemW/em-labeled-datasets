@@ -103,10 +103,10 @@ If the login node kills long processes, run the smoke test as a job instead:
 
 ### Step 5: configure the job script
 Edit the header of `download_array.sbatch`:
-* `--partition` / `--account`: uncomment and set them if your cluster requires them. If there is a
+* `--partition`: set to `short` (our cluster). Add `--account` if your cluster requires one. If there is a
   data-transfer partition, use it.
-* `--time`: 2 days by default. Task 18 (EMPIAR-10791 liver crops) and task 16 (49 OpenOrganelle windows) are the
-  longest; give them more if your cluster's network is slow.
+* `--time`: 24 hours. Tasks are resumable, so a task that hits the limit (most likely 16, the 49 OpenOrganelle
+  windows, and 18, the EMPIAR-10791 liver crops) is simply re-submitted and continues where it stopped.
 * `--array=0-20%4`: `%4` = at most 4 downloads at once. That is polite to the servers; raise it if you like.
 * `--mem=32G`, `--cpus-per-task=8`: enough for all tasks.
 
@@ -117,7 +117,8 @@ with `df -h /path` or your site's quota command.
 ```bash
 cd ~/em_fetch
 mkdir -p logs
-OUT=/project/mylab/em_datasets sbatch download_array.sbatch
+sbatch download_array.sbatch                              # OUT defaults to ../../em_datasets (next to the repo)
+OUT=/project/mylab/em_datasets sbatch download_array.sbatch   # or choose another place
 # if the venv is not in ./venv:
 OUT=/project/mylab/em_datasets ENV_DIR=/path/to/venv sbatch download_array.sbatch
 ```
@@ -134,7 +135,7 @@ A task that ends `FAILED` in `sacct` has the reason in its log and in `_status.j
 Most failures are temporary server problems. **Re-submit just those tasks**; everything already done is
 skipped and partial files and crops resume:
 ```bash
-OUT=/project/mylab/em_datasets sbatch --array=14,18 download_array.sbatch
+sbatch --array=14,18 download_array.sbatch      # add the same OUT=... if you set one at first submit
 ```
 To run a single dataset without SLURM (e.g. on the transfer node):
 `./venv/bin/python fetch_em.py --out $OUT --only empiar-12885`
