@@ -50,7 +50,8 @@ FIELDS = [
 
 IMG_EXT = (".tif", ".tiff", ".png", ".jpg", ".jpeg", ".nii", ".nii.gz", ".am", ".dm4", ".h5", ".hdf5", ".mrc")
 LABEL_RX = re.compile(r"(label|mask|lbl_|groundtruth|/gt[_/]|segmentation|model_tif|_mito\.|mitoclass|organellemodel|"
-                      r"celloutlinemodel|_myo\.|_cell\.|_nucleus\.|_nucleolus\.|- human|- aive|_seg\b)", re.I)
+                      r"celloutlinemodel|_myo\.|_cell\.|_nucleus\.|_nucleolus\.|- human|- aive|_seg\b|"
+                      r"/(er|endosomes|mitochondria)(_roi)?\.tiff?$)", re.I)  # last: EMPIAR-13156 segmentations
 PRED_RX = re.compile(r"(prediction|predicted|probabilit)", re.I)
 RAW_DIR_RX = re.compile(r"/(images|imagesTr|imagesTs|raw)(/|$)", re.I)
 SKIP_RX = re.compile(r"(^|/)(__MACOSX|\.DS_Store|_status(_test)?\.json$|fetch_(run|test)_.*\.log$|MANUAL_DOWNLOAD\.txt$)")
@@ -61,6 +62,8 @@ VOXEL_TABLE = [
     ("empiar-10994", r"160621_HeLa_Control", (30, 15.2, 15.2, "EMPIAR-10994 entry")),
     ("empiar-10994", r"161107_HeLa_REEP3-4", (30, 14.8, 14.8, "EMPIAR-10994 entry")),
     ("empiar-11746", r".", (5, 2.5, 2.5, "EMPIAR-11746 entry")),
+    ("empiar-13156", r"HeLaSTARD3_WT_Raw", (None, 5, 5, "EMPIAR-13156 entry (pixel 50 A; z not stated)")),
+    ("empiar-13156", r"HeLaSTARD3_FA_YA_Raw|HeLaWT_Raw", (None, 8, 8, "EMPIAR-13156 entry (pixel 80 A; z not stated)")),
     ("zenodo-10043461", r".", (5, 2.5, 2.5, "EMPIAR-11746 entry (same cell)")),
     ("empiar-12885", r"DATASET1_TEST_ROI", (10, 3.26, 3.26, "EMPIAR-12885 entry")),
     ("empiar-12885", r"Set4", (20, 16, 16, "EMPIAR-12885 entry (muscle)")),

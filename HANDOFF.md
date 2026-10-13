@@ -88,28 +88,18 @@ Deliverables are written and tested on the laptop:
   .nii.gz/.am files no longer mislabeled "DM4"; __MACOSX skipped. platelet-guay and zenodo-17068504 rows are from
   full downloads (complete statistics).
 
-## RESUME HERE (user will say "continue", 2026-10-13)
-Goal: final `planned_items.csv` with the fixes applied, then commit + push + update the Google Doc to-do line.
-1. Re-run the remote inventory, ONE dataset at a time (laptop RAM is tight; Claude Code kills background jobs when
-   free memory gets low), for exactly these 7 datasets:
-   `empiar-13156 empiar-11037 s-biad2822 platynereis-zenodo mitoem2 deepcontact zenodo-10043461`
-   ```
-   cd scripts
-   for id in <the 7>; do timeout 2400 <venv python> inventory.py --remote --csv <plan_dir>/$id.csv --only $id \
-       > <plan_dir>/$id.log 2>&1; done
-   ```
-   Use a NEW empty plan_dir (the old scratchpad one may be gone, and its CSVs for these 7 are outdated).
-   Python venv with the deps (+ h5py): `.../0877655d-.../scratchpad/venv/Scripts/python.exe` (may be gone too:
-   then `python -m venv` + `pip install -r scripts/requirements.txt`).
-   Rough times: 13156 ~15 min, 11037 ~15 min, s-biad2822 ~15-25 min, deepcontact ~8, mitoem2 ~4, others ~1-2.
-2. Check each new CSV: rows with role raw/label should have voxel sizes, except the 132 CEM-MitoLab 2D sources
-   whose pixel size is blank in cem_mitolab_metadata.xlsx (voxel_source says "not reported") and the EMPIAR-10982
-   TEM set. Expect: CEM rows voxel_source "cem_mitolab_metadata.xlsx: ...", NucleoNet "S-BIAD2822 file list",
-   Platynereis "Zenodo 3675220 record description", NucleoNet img/lbl as separate rows, no "DM4" rows outside
-   EMPIAR-10994, no __MACOSX rows.
-3. Merge: `python scripts/dev/merge_plan.py --plan-dir <plan_dir>` (rewrites planned_items.csv; keeps the
-   full-download rows of platelet-guay and zenodo-17068504 and the current rows of all other datasets).
-4. Commit + push; in the Google Doc change "[ ] Final planned_items.csv ..." to [x].
-Known remaining limits (fine to leave, say so in the doc): platelet Dropbox zip and TNBC tar.gz cannot be read
-remotely (platelet already covered by a full download); deeppi-em (Google Drive) and orgsegnet (manual) are
-placeholder rows; zipped deepcontact TIFFs with the header at the end show "read after download".
+## Final planned_items.csv (done 2026-10-13)
+- 2119 rows. The 7 datasets above were re-run one at a time (`inventory.py --remote --only <id>`) and merged with
+  `scripts/dev/merge_plan.py --plan-dir <dir>`; all other datasets keep their earlier rows, platelet-guay and
+  zenodo-17068504 keep their full-download rows.
+- EMPIAR-13156 fix: ER/Endosomes/Mitochondria(_ROI).tif are segmentations (EMPIAR entry), now role "label" with
+  label_classes; xy voxel from the EMPIAR entry per folder (Ctrl and FA/YA 8 nm, STARD3 WT 5 nm). z is not stated
+  anywhere, so voxel_z_nm stays blank (still VERIFY in metadata.csv). "_ROI" files = segmentation inside the ROI box;
+  the plain files = whole image excluding the ROI.
+- Raw/label rows still without a voxel size (expected): 262 CEM-MitoLab sources with a blank pixel size in
+  cem_mitolab_metadata.xlsx, the EMPIAR-10982 TEM set, 2 deepcontact rows that mix two resolutions (see metadata.csv).
+- EBI (ftp.ebi.ac.uk) was slow on 2026-10-13: 13156 and s-biad2822 each took 30-95 min with many read timeouts.
+  Use a long timeout (2 h) for those, and keep the laptop awake (a sleep stalls the open connection).
+Known remaining limits: platelet Dropbox zip and TNBC tar.gz cannot be read remotely (platelet already covered by a
+full download); deeppi-em (Google Drive) and orgsegnet (manual) are placeholder rows; zipped deepcontact TIFFs with
+the header at the end show "read after download".
