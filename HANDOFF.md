@@ -55,7 +55,7 @@ Deliverables are written and tested on the laptop:
 
 ## Session 3 (2026-10-12): scope change + research
 - **Scope is now labeled datasets only, with 1000^3 crops.** QuantEM is on hold. Platynereis raw crops (unlabeled) get dropped.
-- Repo: https://github.com/HashemW/em-labeled-datasets (private). Issues/to-do doc (user logs cluster problems there):
+- Repo: https://github.com/HashemW/em-labeled-datasets (public since 2026-10-13; no GitHub login needed to clone). Issues/to-do doc (user logs cluster problems there):
   https://docs.google.com/document/d/1T9dvGZt-JJEoCw9-2LglqiVFU0CVZFpRuvle0pvz6pA/edit
 - 1000^3 storage estimate (from measured compression ratios): full downloads 82 GB (unchanged) + crops about 9 GB
   (was 74 GB at 2000^3) = about 91 GB scripted; +32 GB OrgSegNet manual.

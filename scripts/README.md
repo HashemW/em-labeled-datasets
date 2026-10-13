@@ -45,8 +45,8 @@ rsync -av scripts/ myuser@cluster.example.org:~/em_fetch/
 ```
 Copy the whole folder: `fetch_em.py`, `datasets.json`, `download_array.sbatch`, `inventory.py`,
 `inventory.sbatch`, `setup_env.sh`, `requirements.txt` (and `dev/`, which is optional). Then log in and
-`cd ~/em_fetch`. Or clone the repository: `git clone https://github.com/HashemW/em-labeled-datasets.git` (it is
-private: run `gh auth login` or use a personal access token first) and `cd em-labeled-datasets/scripts`.
+`cd ~/em_fetch`. Or clone the repository: `git clone https://github.com/HashemW/em-labeled-datasets.git` (public, no login
+needed) and `cd em-labeled-datasets/scripts`.
 
 If you copied from Windows and a script fails with `$'\r': command not found`, fix the line endings with
 `sed -i 's/\r$//' *.sh *.sbatch`. The files are shipped with Unix line endings, so this should not happen.
