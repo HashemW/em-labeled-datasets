@@ -137,9 +137,16 @@ class HTTPFile(io.RawIOBase):
     def __init__(self, url, size=None, verify=False):
         self.url, self.pos, self.verify = url, 0, verify
         if size is None:
-            r = with_retries(lambda: session().head(url, allow_redirects=True, timeout=60), url)
-            r.raise_for_status()
-            size = int(r.headers["Content-Length"])
+            # EBI under load sometimes answers HEAD without Content-Length (KeyError on EMPIAR-13420,
+            # 2026-10-14): fall back to a Range probe, and retry if the server still gives no size.
+            def go():
+                s = remote_size(url)
+                if s is None:
+                    raise requests.ConnectionError(f"server gave no size for {url}")
+                return s
+            size = with_retries(go, url)
+            if size < 0:
+                raise FileNotFoundError(url)
         self.size = size
 
     def seekable(self):
