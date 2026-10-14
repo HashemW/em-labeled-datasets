@@ -819,6 +819,20 @@ def write_crop(crop, out_dir, workers, test=False, test_size=64, test_slices=8):
 
 # ----------------------------------------------------------------------------- dataset handlers
 
+def http_dir_selection(ds, ftp_check=True):
+    """[(relative dest path, url)] of an http_dir dataset after its include/exclude filters (also used by verify.py)."""
+    inc = [re.compile(r) for r in ds.get("include", [".*"])]
+    exc = [re.compile(r) for r in ds.get("exclude", [])]
+    todo = []
+    for base in ds["urls"]:
+        prefix = ds.get("dest_prefix", {}).get(base, "")
+        for rel, u in list_files(base, ftp_check=ftp_check):
+            relp = prefix + rel
+            if any(r.search(relp) for r in inc) and not any(r.search(relp) for r in exc):
+                todo.append((relp, u))
+    return todo
+
+
 def run_dataset(ds, out_root, workers, test, args):
     out = os.path.join(out_root, ds["id"])
     os.makedirs(out, exist_ok=True)
@@ -845,15 +859,7 @@ def run_dataset(ds, out_root, workers, test, args):
                 if str(res).startswith("FAILED"):
                     status["failed"].append(k)
     elif kind == "http_dir":
-        inc = [re.compile(r) for r in ds.get("include", [".*"])]
-        exc = [re.compile(r) for r in ds.get("exclude", [])]
-        todo = []
-        for base in ds["urls"]:
-            prefix = ds.get("dest_prefix", {}).get(base, "")
-            for rel, u in list_files(base, ftp_check=not test):
-                relp = prefix + rel
-                if any(r.search(relp) for r in inc) and not any(r.search(relp) for r in exc):
-                    todo.append((relp, u))
+        todo = http_dir_selection(ds, ftp_check=not test)
         status["n_files"] = len(todo)
         log.info("%s: %d files selected", ds["id"], len(todo))
         if test:  # list + fetch a couple of files' first MiB

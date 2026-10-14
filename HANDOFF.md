@@ -103,3 +103,18 @@ Deliverables are written and tested on the laptop:
 Known remaining limits: platelet Dropbox zip and TNBC tar.gz cannot be read remotely (platelet already covered by a
 full download); deeppi-em (Google Drive) and orgsegnet (manual) are placeholder rows; zipped deepcontact TIFFs with
 the header at the end show "read after download".
+
+## Session 4 (2026-10-14): downloads finished, verify script
+- The user reports that all cluster downloads finished in under a day. They asked for a script that checks everything
+  downloaded correctly, measures sizes, and puts a JSON with the full metadata in each dataset folder.
+- New `scripts/verify.py` + `verify.sbatch` (inventory.py first, then `verify.py --deep`). Writes
+  `$OUT/<id>/_dataset_info.json` and `$OUT/verify_report.csv/.json`. EMPIAR folders are re-listed and HEAD-sized,
+  Google Drive is re-listed with gdown `skip_download`, crops are checked against sidecar, `.zarray` and
+  `.progress.json`. `fetch_em.http_dir_selection()` is shared with the downloader.
+- Tested on the laptop with a small real download (10982 subset, platelet, deeppi-em, orgsegnet, shrunk FAST-EM and
+  OpenOrganelle crops) and a deliberately broken copy (truncated zip, deleted file, missing sidecar, missing slab,
+  corrupt chunk, failed status). Every fault was flagged.
+- Found while testing: gdown can skip files on Drive rate limits while the folder still has `expect_files` files
+  (`.DS_Store` files fill the count), so the count alone is not enough. Dropbox drops Content-Length when gzip is
+  accepted, so HEAD uses `Accept-Encoding: identity`.
+- metadata.csv download_plan text updated to the 1000^3 plan (it still described 2000^3 crops).

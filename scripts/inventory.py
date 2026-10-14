@@ -54,7 +54,7 @@ LABEL_RX = re.compile(r"(label|mask|lbl_|groundtruth|/gt[_/]|segmentation|model_
                       r"/(er|endosomes|mitochondria)(_roi)?\.tiff?$)", re.I)  # last: EMPIAR-13156 segmentations
 PRED_RX = re.compile(r"(prediction|predicted|probabilit)", re.I)
 RAW_DIR_RX = re.compile(r"/(images|imagesTr|imagesTs|raw)(/|$)", re.I)
-SKIP_RX = re.compile(r"(^|/)(__MACOSX|\.DS_Store|_status(_test)?\.json$|fetch_(run|test)_.*\.log$|MANUAL_DOWNLOAD\.txt$)")
+SKIP_RX = re.compile(r"(^|/)(__MACOSX|\.DS_Store|_status(_test)?\.json$|_dataset_info\.json$|fetch_(run|test)_.*\.log$|MANUAL_DOWNLOAD\.txt$)")
 
 # Voxel sizes (nm, z/y/x) from the papers / repository pages, for files whose header has none (or a wrong one).
 # (dataset id, regex on the item path) -> (z, y, x, source). z None = 2D.

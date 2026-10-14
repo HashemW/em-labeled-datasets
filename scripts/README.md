@@ -20,6 +20,7 @@ cluster. Scope since 2026-10-12: labeled data only (the unlabeled Platynereis ra
 | `datasets.json` | manifest: one entry per job, i.e. per dataset or per dataset part |
 | `download_array.sbatch` | SLURM job array, one task per manifest entry |
 | `inventory.py`, `inventory.sbatch` | CSV of every downloaded item with its statistics (run after the download) |
+| `verify.py`, `verify.sbatch` | checks every download is complete, measures sizes, writes `_dataset_info.json` per dataset |
 | `setup_env.sh`, `requirements.txt` | creates `./venv` |
 | `dev/build_manifest.py` | regenerates `datasets.json` (queries Zenodo/figshare/4TU for md5s) |
 | `dev/build_metadata.py` | regenerates `../metadata.csv` |
@@ -141,6 +142,40 @@ To run a single dataset without SLURM (e.g. on the transfer node):
 `./venv/bin/python fetch_em.py --out $OUT --only empiar-12885`
 
 After a successful run, the one manual dataset (OrgSegNet) is described in `$OUT/orgsegnet/MANUAL_DOWNLOAD.txt`.
+
+## Verify + per-dataset metadata JSON
+
+After all download tasks are `COMPLETED`:
+```bash
+./venv/bin/python verify.py --out $OUT          # quick check (minutes): completeness + sizes + JSONs
+sbatch verify.sbatch                            # full run: inventory.py (items.csv), then verify.py --deep
+```
+`verify.sbatch` uses the same `OUT` default as `download_array.sbatch` (`OUT=... sbatch verify.sbatch` for another
+place). It runs `inventory.py` first, so the JSONs carry values measured on the files, then `verify.py --deep`.
+
+What is checked: `_status.json` says OK and is not from a test run; no leftover `.part`/`.badmd5` files; manifest
+files have the exact published size (`--deep`: and md5); EMPIAR/EBI folders are listed again and every file must
+exist with the exact size the server reports; Google Drive has the expected number of non-empty files; every crop
+has its sidecar, all arrays, the expected shape and all z-slabs written (`--deep`: every voxel is read back and
+all-zero arrays are flagged); `--deep` also CRC-tests every zip. `--offline` skips the server comparison.
+
+Outputs:
+* `$OUT/verify_report.csv` (+ `.json`): one row per dataset with status `OK` / `WARN` / `FAIL` / `MANUAL`, GB on
+  disk, disk usage (quota), the exact expected GB where the server publishes sizes, and the problems found.
+* `$OUT/<id>/_dataset_info.json`: everything about the dataset in one file:
+  * `metadata`: name, used for, dataset link, paper link, imaging, organism, organ/tissue/cell type, organelles,
+    label classes, xy/z resolution, image size, size at source, download plan, notes (from `../metadata.csv`).
+  * `on_disk`: bytes, GB, file count, disk usage, expected GB.
+  * `verification`: status, problems, warnings, what was checked.
+  * `measured_summary`: the distinct voxel sizes (z/y/x nm, with their source), the image-size range in pixels,
+    and the label classes found.
+  * `items`: one entry per item from `items.csv` (shape, voxel size, physical size, dtype, label statistics,
+    intensity range, ...). Without `items.csv` it falls back to `../planned_items.csv` (headers read before download).
+  * `crops` (crop datasets): per crop the offset, voxel size and every array with shape, dtype, source URL and the
+    OpenOrganelle GT crops it holds.
+
+A `FAIL` names what is missing; re-submit that task (`sbatch --array=<idx> download_array.sbatch`) and run
+`verify.py` again.
 
 ## Inventory (the "exactly what we have" CSV)
 
