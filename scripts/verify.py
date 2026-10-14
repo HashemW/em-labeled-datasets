@@ -100,21 +100,7 @@ def md5_of(path):
     return h.hexdigest()
 
 
-def head_size(url):
-    """Size of a remote file in bytes; -1 if it does not exist, None if the server will not say."""
-    def go():
-        h = {"Accept-Encoding": "identity"}  # with gzip allowed, Dropbox drops Content-Length
-        r = fetch_em.session().head(url, headers=h, allow_redirects=True, timeout=(30, 60))
-        if r.status_code == 404:
-            return -1
-        r.raise_for_status()
-        if r.headers.get("Content-Length") is not None:
-            return int(r.headers["Content-Length"])
-        with fetch_em.session().get(url, headers={**h, "Range": "bytes=0-0"}, stream=True,
-                                    allow_redirects=True, timeout=(30, 60)) as r:
-            cr = r.headers.get("Content-Range", "")
-            return int(cr.rsplit("/", 1)[1]) if r.status_code == 206 and cr[-1:].isdigit() else None
-    return fetch_em.with_retries(go, url)
+head_size = fetch_em.remote_size  # -1 if missing, None if the server will not say
 
 
 def gb(n):
@@ -133,6 +119,8 @@ def check_status(root, res):
         res.fail.append("_status.json is from a --test run")
     if st.get("failed"):
         res.fail.append(f"_status.json lists {len(st['failed'])} failed item(s): {st['failed'][:10]}")
+        for k in st["failed"][:10]:  # the download error, so a FAIL can be diagnosed from the report alone
+            res.fail.append(f"{k} error: {str(st.get('items', {}).get(k, '?'))[:300]}")
     elif not st.get("ok", False):
         res.fail.append("_status.json says ok=false")
     if os.path.exists(os.path.join(root, "_status_test.json")):

@@ -118,3 +118,18 @@ the header at the end show "read after download".
   (`.DS_Store` files fill the count), so the count alone is not enough. Dropbox drops Content-Length when gzip is
   accepted, so HEAD uses `Accept-Encoding: identity`.
 - metadata.csv download_plan text updated to the 1000^3 plan (it still described 2000^3 crops).
+
+### First cluster verify report (2026-10-14, pasted into the Google Doc)
+16 OK, 1 WARN (asem-crops), 1 MANUAL (orgsegnet), 4 FAIL, all on EBI-hosted data:
+- empiar-10994 (task 2): one TIFF is 994 bytes locally, 33366 on the server (HTTPS and FTP agree, unchanged since
+  2024). http_dir files had no expected size, so a short body passed and a re-run would have skipped the bad file.
+  Fix: `download_file` now takes the server size (`fetch_em.remote_size`, also used by verify.py) when the manifest
+  has none, and re-fetches an existing file of the wrong size. Tested on the real file.
+- s-biad2822 (task 13): 5 files failed (a `.part` is left; it resumes). empiar-13420-crops (task 17): 2 crops +
+  README failed. empiar-10791-crops (task 18): 6461_lean_crop failed. Crops resume from `.progress.json`.
+  The report only had item names, so verify.py now also prints each failed item's error from `_status.json`.
+- Both "every voxel is 0" warnings are real properties of the source, checked against it:
+  asem cell_46_t08 mito: the 4 labeled source chunks that touch the tile have all their mito voxels at z 896-959,
+  just above the tile (z from 960); the tile planner tested chunks, not voxels. 10791 9430_obese2 nuclear_membrane:
+  source slices at crop z 3750/4250/4749 have nuclear membrane, all outside the crop's y/x window.
+- Next: user runs `git pull`, `sbatch --array=2,13,17,18 download_array.sbatch`, then verify.py again.

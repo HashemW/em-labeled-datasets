@@ -171,8 +171,34 @@ class HTTPFile(io.RawIOBase):
         return len(d)
 
 
+def remote_size(url):
+    """Size of a remote file in bytes; -1 if it does not exist, None if the server will not say."""
+    def go():
+        h = {"Accept-Encoding": "identity"}  # with gzip allowed, Dropbox drops Content-Length
+        r = session().head(url, headers=h, allow_redirects=True, timeout=(30, 60))
+        if r.status_code == 404:
+            return -1
+        r.raise_for_status()
+        if r.headers.get("Content-Length") is not None:
+            return int(r.headers["Content-Length"])
+        with session().get(url, headers={**h, "Range": "bytes=0-0"}, stream=True,
+                           allow_redirects=True, timeout=(30, 60)) as r:
+            cr = r.headers.get("Content-Range", "")
+            return int(cr.rsplit("/", 1)[1]) if r.status_code == 206 and cr[-1:].isdigit() else None
+    return with_retries(go, url)
+
+
 def download_file(url, dest, md5=None, size=None, test=False, _redo=False):
     """Resumable download with size/md5 verification. In test mode only fetch 1 MiB unless file is small."""
+    if size is None and not test:
+        # No size in the manifest (e.g. http_dir listings): take the server's. A short body without a
+        # Content-Length once slipped through as a 994-byte copy of a 33366-byte TIFF (EMPIAR-10994, 2026-10-14),
+        # and an existing file of the wrong size is fetched again instead of being skipped.
+        try:
+            s = remote_size(url)
+            size = s if s and s > 0 else None
+        except Exception as e:
+            log.warning("could not get the server size of %s (%r); size not checked", url, e)
     if os.path.exists(dest):
         if size is None or os.path.getsize(dest) == size:
             log.info("exists, skip: %s", dest)
