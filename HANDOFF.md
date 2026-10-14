@@ -133,3 +133,7 @@ the header at the end show "read after download".
   just above the tile (z from 960); the tile planner tested chunks, not voxels. 10791 9430_obese2 nuclear_membrane:
   source slices at crop z 3750/4250/4749 have nuclear membrane, all outside the crop's y/x window.
 - Next: user runs `git pull`, `sbatch --array=2,13,17,18 download_array.sbatch`, then verify.py again.
+- Second verify report (2026-10-14): 19 OK, 1 MANUAL, the same 2 WARNs, 1 FAIL (13420 Control crop:
+  `KeyError('content-length')`, an EBI HEAD without Content-Length in HTTPFile). Fixed in 8dc3550 (Range probe
+  fallback + retry). Next: `sbatch --array=17 download_array.sbatch`, then verify.py.
+- User decision 2026-10-14: keep both WARN tiles as they are (no window move for obese2). The WARNs are expected.
