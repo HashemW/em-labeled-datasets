@@ -154,3 +154,6 @@ the header at the end show "read after download".
   the login node has a 10 CPU-minute limit). Plan in the doc: smbclient `mput` from xfer03p in tmux, then
   `scripts/check_share_copy.py` (commit 5311ce1) compares a recursive smbclient `ls` with the local tree. If smbclient
   is missing or port 445 is blocked, use WinSCP from the work laptop. Waiting for the user's Step 1 output.
+- 2026-10-15: the user confirmed 13420 is OK, so all downloads are done. Google Doc rewritten at the user's request:
+  only the status, the share copy steps (fsitgl-xfer03p, smbclient, check_share_copy.py), the WinSCP fallback, an
+  empty Issues log and the open z-skipping item remain (older replies are in the doc's version history).
