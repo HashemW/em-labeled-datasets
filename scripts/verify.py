@@ -100,7 +100,13 @@ def md5_of(path):
     return h.hexdigest()
 
 
-head_size = fetch_em.remote_size  # -1 if missing, None if the server will not say
+def head_size(url):
+    """Server size: -1 if missing, None if the server will not say (or keeps failing)."""
+    try:
+        return fetch_em.remote_size(url)
+    except Exception as e:
+        log.warning("no server size for %s (%r)", url, e)
+        return None
 
 
 def gb(n):

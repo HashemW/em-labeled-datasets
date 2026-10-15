@@ -89,8 +89,15 @@ def with_retries(fn, what, tries=6):
             if i == tries - 1:
                 raise
             wait = min(120, 5 * 2 ** i)
-            log.warning("%s: %s; retry %d/%d in %ds", what, e.__class__.__name__, i + 1, tries - 1, wait)
+            log.warning("%s: %s (%.150s); retry %d/%d in %ds", what, e.__class__.__name__, e, i + 1, tries - 1, wait)
             time.sleep(wait)
+
+
+def _check_not_html(r, url):
+    """EBI under load answers some requests with 200 and an HTML page instead of the file (a TIFF read as
+    b'<!DO', 2026-10-15). No data URL in the manifest is HTML, so treat that as a transient error and retry."""
+    if "text/html" in r.headers.get("Content-Type", "") and not url.endswith(("/", ".html", ".htm")):
+        raise requests.ConnectionError(f"HTML page instead of data (HTTP {r.status_code}): {url}")
 
 
 def http_get_bytes(url, start=None, end=None, missing_ok=False, verify=False):
@@ -104,6 +111,7 @@ def http_get_bytes(url, start=None, end=None, missing_ok=False, verify=False):
         if missing_ok and r.status_code in (404, 403):
             return None
         r.raise_for_status()
+        _check_not_html(r, url)
         cl = r.headers.get("Content-Length")
         if cl is not None and "Content-Encoding" not in r.headers and len(r.content) != int(cl):
             raise requests.ConnectionError(f"truncated body {len(r.content)} != {cl}")
@@ -186,6 +194,7 @@ def remote_size(url):
         if r.status_code == 404:
             return -1
         r.raise_for_status()
+        _check_not_html(r, url)
         if r.headers.get("Content-Length") is not None:
             return int(r.headers["Content-Length"])
         with session().get(url, headers={**h, "Range": "bytes=0-0"}, stream=True,
@@ -224,6 +233,7 @@ def download_file(url, dest, md5=None, size=None, test=False, _redo=False):
                 if r.status_code == 416:  # already complete
                     break
                 r.raise_for_status()
+                _check_not_html(r, url)
                 if have and r.status_code != 206:
                     log.warning("server does not support resume; restarting %s", url)
                     have = 0
@@ -276,6 +286,7 @@ def _stream_md5(url):
         h = hashlib.md5()
         with session().get(url, stream=True, timeout=(30, 300), allow_redirects=True) as r:
             r.raise_for_status()
+            _check_not_html(r, url)
             for blk in r.iter_content(CHUNK):
                 h.update(blk)
         return h.hexdigest()
@@ -359,6 +370,10 @@ def crawl_apache(url, rel=""):
 def _get_text(url):
     r = session().get(url, timeout=(30, 120))
     r.raise_for_status()
+    # An EBI error page with status 200 parsed as an empty folder and dropped 894 EMPIAR-13156 files from a
+    # listing (2026-10-15): accept only a real Apache index.
+    if "<title>Index of " not in r.text:
+        raise requests.ConnectionError(f"not a directory listing: {url}")
     return r.text
 
 
@@ -380,6 +395,8 @@ def _ftp_names(url):
 def _head_exists(url):
     def go():
         r = session().head(url, allow_redirects=True, timeout=(30, 60))
+        if r.status_code == 200:
+            _check_not_html(r, url)
         return r.status_code == 200
     return with_retries(go, url)
 
