@@ -149,3 +149,8 @@ the header at the end show "read after download".
   moved to z offset 1370 (slices 1371-2370, before both gaps; all label classes 1-5 still present). The cluster
   re-downloads that whole crop (offset change resets its progress). Labels have both slices. Smoke test 13420 OK.
   Next: `git pull`, `sbatch --array=17 download_array.sbatch`, then `sbatch verify_one.sbatch 17`.
+- Copy to the share (2026-10-15): the user wants the output on smb://fssrgd-cssl01p.ncifcrf.gov/CMM-FS/Share/2026_SummerStudents/datasets.
+  FRCE docs: SMB shares cannot be mounted on the cluster; transfers go on fsitgl-xfer03p.ncifcrf.gov (not sbatch, and
+  the login node has a 10 CPU-minute limit). Plan in the doc: smbclient `mput` from xfer03p in tmux, then
+  `scripts/check_share_copy.py` (commit 5311ce1) compares a recursive smbclient `ls` with the local tree. If smbclient
+  is missing or port 445 is blocked, use WinSCP from the work laptop. Waiting for the user's Step 1 output.
