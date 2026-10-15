@@ -21,6 +21,7 @@ cluster. Scope since 2026-10-12: labeled data only (the unlabeled Platynereis ra
 | `download_array.sbatch` | SLURM job array, one task per manifest entry |
 | `inventory.py`, `inventory.sbatch` | CSV of every downloaded item with its statistics (run after the download) |
 | `verify.py`, `verify.sbatch`, `verify_one.sbatch` | checks every download (or one: `verify_one.sbatch <idx>`) is complete, measures sizes, writes `_dataset_info.json` per dataset |
+| `check_share_copy.py` | after copying the output to a Windows (SMB) share with smbclient: checks every file arrived with the right size |
 | `setup_env.sh`, `requirements.txt` | creates `./venv` |
 | `dev/build_manifest.py` | regenerates `datasets.json` (queries Zenodo/figshare/4TU for md5s) |
 | `dev/build_metadata.py` | regenerates `../metadata.csv` |
@@ -181,6 +182,18 @@ sbatch verify_one.sbatch <idx>                  # task number, e.g. 17, or the d
 ```
 It replaces only that dataset's rows in `items.csv` and `verify_report.csv` and keeps all other rows (the same as
 `verify.py --only <id>` and `inventory.py --only <id>`).
+
+## Copy to a Windows (SMB) share (FRCE)
+
+SMB shares cannot be mounted on FRCE, and big transfers belong on the transfer host `fsitgl-xfer03p.ncifcrf.gov`
+(not the login node, not sbatch). In `tmux` on that host, from the folder that contains `em_datasets`:
+```bash
+S=//fssrgd-cssl01p.ncifcrf.gov/CMM-FS; R=Share/2026_SummerStudents/datasets/em_datasets
+smbclient $S -W NIH -U <user> -c "mkdir $R"
+smbclient $S -W NIH -U <user> -c "cd $R; lcd em_datasets; recurse on; prompt off; mput *"
+smbclient $S -W NIH -U <user> -c "cd $R; recurse on; ls" > share_listing.txt
+python3 em-labeled-datasets/scripts/check_share_copy.py em_datasets share_listing.txt --remote-root $R
+```
 
 ## Inventory (the "exactly what we have" CSV)
 
