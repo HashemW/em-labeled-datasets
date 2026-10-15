@@ -11,6 +11,8 @@
 #   sbatch verify.sbatch                         # OUT defaults to ../../em_datasets (next to the repo)
 #   OUT=/other/storage/em_datasets sbatch verify.sbatch
 #   SKIP_INVENTORY=1 sbatch verify.sbatch        # reuse an existing $OUT/items.csv
+# To re-check just one dataset after re-downloading it: sbatch verify_one.sbatch <task number or id>
+#   (e.g. sbatch verify_one.sbatch 17). It keeps the other datasets' rows in the reports.
 # 1. inventory.py writes $OUT/items.csv (one row per item, measured on the files; takes hours, reads everything)
 # 2. verify.py --deep checks every dataset, re-hashes md5s, CRC-tests zips, reads every crop voxel, and writes
 #    $OUT/<id>/_dataset_info.json plus $OUT/verify_report.csv

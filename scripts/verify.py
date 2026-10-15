@@ -514,15 +514,35 @@ def main():
 
     cols = ["id", "kind", "status", "gb_on_disk", "disk_usage_gb", "expected_gb", "n_files", "n_items",
             "problems", "warnings"]
-    with open(os.path.join(args.out, "verify_report.csv"), "w", newline="", encoding="utf-8") as f:
+    csv_rows = [{**r, "problems": " | ".join(r.get("problems", [])), "warnings": " | ".join(r.get("warnings", []))}
+                for r in rows]
+    json_rows = rows
+    csv_path = os.path.join(args.out, "verify_report.csv")
+    json_path = os.path.join(args.out, "verify_report.json")
+    if args.only:
+        # --only re-checks a few datasets: replace their rows in the existing report and keep all the others
+        order = [d["id"] for d in json.load(open(args.manifest, encoding="utf-8"))["datasets"]]
+        pos = {did: i for i, did in enumerate(order)}
+        rank = lambda r: pos.get(r["id"], len(order))  # noqa: E731
+        if os.path.exists(csv_path):
+            with open(csv_path, newline="", encoding="utf-8") as f:
+                old = [r for r in csv.DictReader(f) if r.get("id") not in args.only]
+            csv_rows = sorted(old + csv_rows, key=rank)
+        if os.path.exists(json_path):
+            try:
+                with open(json_path, encoding="utf-8") as f:
+                    old = [r for r in json.load(f).get("datasets", []) if r.get("id") not in args.only]
+                json_rows = sorted(old + rows, key=rank)
+            except (OSError, ValueError) as e:
+                log.warning("could not merge into %s (%r); writing only the checked datasets", json_path, e)
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, cols, extrasaction="ignore")
         w.writeheader()
-        for r in rows:
-            w.writerow({**r, "problems": " | ".join(r.get("problems", [])),
-                        "warnings": " | ".join(r.get("warnings", []))})
-    with open(os.path.join(args.out, "verify_report.json"), "w", encoding="utf-8") as f:
+        w.writerows(csv_rows)
+    with open(json_path, "w", encoding="utf-8") as f:
         json.dump({"generated": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
-                   "deep": args.deep, "offline": args.offline, "items_source": items_src, "datasets": rows},
+                   "deep": args.deep, "offline": args.offline, "items_source": items_src,
+                   "updated": args.only or "all", "datasets": json_rows},
                   f, indent=1, ensure_ascii=False)
 
     print(f"\n{'dataset':28s} {'status':7s} {'GB':>8s}  notes")

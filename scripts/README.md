@@ -20,7 +20,7 @@ cluster. Scope since 2026-10-12: labeled data only (the unlabeled Platynereis ra
 | `datasets.json` | manifest: one entry per job, i.e. per dataset or per dataset part |
 | `download_array.sbatch` | SLURM job array, one task per manifest entry |
 | `inventory.py`, `inventory.sbatch` | CSV of every downloaded item with its statistics (run after the download) |
-| `verify.py`, `verify.sbatch` | checks every download is complete, measures sizes, writes `_dataset_info.json` per dataset |
+| `verify.py`, `verify.sbatch`, `verify_one.sbatch` | checks every download (or one: `verify_one.sbatch <idx>`) is complete, measures sizes, writes `_dataset_info.json` per dataset |
 | `setup_env.sh`, `requirements.txt` | creates `./venv` |
 | `dev/build_manifest.py` | regenerates `datasets.json` (queries Zenodo/figshare/4TU for md5s) |
 | `dev/build_metadata.py` | regenerates `../metadata.csv` |
@@ -174,8 +174,13 @@ Outputs:
   * `crops` (crop datasets): per crop the offset, voxel size and every array with shape, dtype, source URL and the
     OpenOrganelle GT crops it holds.
 
-A `FAIL` names what is missing; re-submit that task (`sbatch --array=<idx> download_array.sbatch`) and run
-`verify.py` again.
+A `FAIL` names what is missing; re-submit that task (`sbatch --array=<idx> download_array.sbatch`), then check only
+that dataset with the same full checks:
+```bash
+sbatch verify_one.sbatch <idx>                  # task number, e.g. 17, or the dataset id; several: 3 17
+```
+It replaces only that dataset's rows in `items.csv` and `verify_report.csv` and keeps all other rows (the same as
+`verify.py --only <id>` and `inventory.py --only <id>`).
 
 ## Inventory (the "exactly what we have" CSV)
 

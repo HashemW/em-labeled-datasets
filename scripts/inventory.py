@@ -1187,11 +1187,18 @@ def main():
                 log.warning("%s: BioImage Archive file lists not read: %r", did, ex)
         voxel_from_raw(b.rows[n0:])
         log.info("%s: %d items", did, len(b.rows) - n0)
+    rows = b.rows
+    if args.only and os.path.exists(args.csv):
+        # --only redoes a few datasets: replace their rows in the existing CSV and keep all the others
+        pos = {did: i for i, did in enumerate(manifest)}
+        with open(args.csv, newline="", encoding="utf-8") as f:
+            old = [r for r in csv.DictReader(f) if r.get("dataset_id") not in args.only]
+        rows = sorted(old + b.rows, key=lambda r: pos.get(r["dataset_id"], len(pos)))  # stable: keeps item order
     with open(args.csv, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, FIELDS, extrasaction="ignore")
         w.writeheader()
-        w.writerows(b.rows)
-    log.info("wrote %s: %d rows", args.csv, len(b.rows))
+        w.writerows(rows)
+    log.info("wrote %s: %d rows (%d new)", args.csv, len(rows), len(b.rows))
 
 
 if __name__ == "__main__":
