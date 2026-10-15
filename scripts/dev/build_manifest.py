@@ -237,7 +237,7 @@ vacuole, nucleus. 2D data, so no crops are needed.
                    "sources": [
                        tiff_stack("raw", e + "FIB/240729_HumanMP_TNFa_1U/dataset/TIFs/240729_HumanMP_TNFa_1U_{:04d}.tif", 1, 2719, [12, 6, 6]),
                        tiff_stack("labels/nucleus_ld", e + "FIB/240729_HumanMP_TNFa_1U/labels/Labels_NucleusLDs_TIFs/Labels_240729_HumanMP_TNFa_1U_nucleus_LD_{:04d}.tif", 1, 2719, [12, 6, 6])]},
-                  {"name": "FIB_240801_HumanMP_Control_crop", "offset_zyx": [1400, 0, 1850], "size_zyx": [W, W, W],
+                  {"name": "FIB_240801_HumanMP_Control_crop", "offset_zyx": [1370, 0, 1850], "size_zyx": [W, W, W],
                    "voxel_nm_zyx": [12, 6, 6],
                    "labels_note": "1 mitochondria, 2 Golgi, 3 ER, 4 nucleus, 5 lipid droplets, 6 ER of other cells",
                    "sources": [

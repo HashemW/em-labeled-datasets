@@ -395,6 +395,11 @@ def _ftp_names(url):
 def _head_exists(url):
     def go():
         r = session().head(url, allow_redirects=True, timeout=(30, 60))
+        if r.history and r.url.rstrip("/") == url.rstrip("/") and r.url.endswith("/") and not url.endswith("/"):
+            # EBI keeps some missing slices as an empty folder named like the file (13420 Control
+            # 240801_HumanMP_Control_2371.tif/ and _2376.tif/): the file URL redirects to a folder listing
+            log.warning("not a file on the server (an empty folder of that name): %s", url)
+            return False
         if r.status_code == 200:
             _check_not_html(r, url)
         return r.status_code == 200

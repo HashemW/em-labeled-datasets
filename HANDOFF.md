@@ -141,3 +141,11 @@ the header at the end show "read after download".
   files "not on the server listing"). Both come from EBI answering 200 with an HTML error page. Fixed in 5273cfb (data
   requests reject text/html, listings must be an Apache "Index of" page, both retry). The full smoke test is 21/21 OK;
   13156 on the cluster is complete (2422 server files). Next: `sbatch --array=17 download_array.sbatch`, then verify.py.
+- Fourth report (2026-10-15): 13420 Control `ConnectionError('HTML page instead of data ...Control_2371.tif')`. Real
+  cause of all three 13420 Control failures: on EBI, raw slices `240801_HumanMP_Control_2371.tif` and `_2376.tif` are
+  empty FOLDERS (the file URL 301-redirects to a folder listing; also absent on PDBj and FTP), and both were inside the
+  window (z 1400-2399). Earlier "EBI under load" diagnosis for 13420 was wrong (13156's was right). Fix: `_head_exists`
+  treats a redirect to a folder of the same name as missing (zeros + WARN instead of a crash), and the Control window
+  moved to z offset 1370 (slices 1371-2370, before both gaps; all label classes 1-5 still present). The cluster
+  re-downloads that whole crop (offset change resets its progress). Labels have both slices. Smoke test 13420 OK.
+  Next: `git pull`, `sbatch --array=17 download_array.sbatch`, then `sbatch verify_one.sbatch 17`.
