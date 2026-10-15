@@ -137,3 +137,7 @@ the header at the end show "read after download".
   `KeyError('content-length')`, an EBI HEAD without Content-Length in HTTPFile). Fixed in 8dc3550 (Range probe
   fallback + retry). Next: `sbatch --array=17 download_array.sbatch`, then verify.py.
 - User decision 2026-10-14: keep both WARN tiles as they are (no window move for obese2). The WARNs are expected.
+- Third verify report (2026-10-15): 13420 Control `TiffFileError header=b'<!DO'` and a false 13156 WARN (894 local
+  files "not on the server listing"). Both come from EBI answering 200 with an HTML error page. Fixed in 5273cfb (data
+  requests reject text/html, listings must be an Apache "Index of" page, both retry). The full smoke test is 21/21 OK;
+  13156 on the cluster is complete (2422 server files). Next: `sbatch --array=17 download_array.sbatch`, then verify.py.
