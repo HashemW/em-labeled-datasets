@@ -65,10 +65,10 @@ def report(local, remote, again):
     for title, rows in (("missing on the share", missing), ("different size", wrong), ("only on the share", extra)):
         if rows:
             print(f"\n{len(rows)} file(s) {title}:")
-            for r in sorted(rows)[:50]:
+            for r in sorted(rows)[:10]:
                 print("  " + (r if isinstance(r, str) else f"{r[0]}  local {r[1]} bytes, share {r[2]} bytes"))
-            if len(rows) > 50:
-                print(f"  ... and {len(rows) - 50} more")
+            if len(rows) > 10:
+                print(f"  ... and {len(rows) - 10} more")
     if not missing and not wrong:
         print("\nOK: every local file is on the share with the same size")
         return 0

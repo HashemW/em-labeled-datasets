@@ -141,6 +141,12 @@ def main():
                             g.cancel()
                         break
         print(f"copy finished in {(time.time() - t0) / 60:.1f} min, {len(failed)} file(s) failed", flush=True)
+        # repeated here because the per-file FAILED lines scroll away behind the long check listing
+        errors = {}
+        for rel, e in failed:
+            errors.setdefault(repr(e), rel)
+        for e, rel in list(errors.items())[:5]:
+            print(f"  error: {e}\n    first file: {rel}")
         remote, _ = remote_tree(top)
 
     print("\nchecking: local folder vs share (name and size)")
