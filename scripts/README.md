@@ -22,6 +22,7 @@ cluster. Scope since 2026-10-12: labeled data only (the unlabeled Platynereis ra
 | `inventory.py`, `inventory.sbatch` | CSV of every downloaded item with its statistics (run after the download) |
 | `verify.py`, `verify.sbatch`, `verify_one.sbatch` | checks every download (or one: `verify_one.sbatch <idx>`) is complete, measures sizes, writes `_dataset_info.json` per dataset |
 | `check_share_copy.py` | after copying the output to a Windows (SMB) share with smbclient: checks every file arrived with the right size |
+| `copy_to_share.py` | copies the output to a Windows (SMB) share without smbclient (pip `smbprotocol`), resumable, then the same check |
 | `setup_env.sh`, `requirements.txt` | creates `./venv` |
 | `dev/build_manifest.py` | regenerates `datasets.json` (queries Zenodo/figshare/4TU for md5s) |
 | `dev/build_metadata.py` | regenerates `../metadata.csv` |
@@ -193,6 +194,13 @@ smbclient $S -W NIH -U <user> -c "mkdir $R"
 smbclient $S -W NIH -U <user> -c "cd $R; lcd em_datasets; recurse on; prompt off; mput *"
 smbclient $S -W NIH -U <user> -c "cd $R; recurse on; ls" > share_listing.txt
 python3 em-labeled-datasets/scripts/check_share_copy.py em_datasets share_listing.txt --remote-root $R
+```
+xfer03p has no smbclient (the `sambamba` module is a BAM tool, not Samba). There, use the pure-Python copier
+instead; it skips files already on the share with the same size (re-run to resume) and ends with the same check:
+```bash
+pip install smbprotocol
+python3 em-labeled-datasets/scripts/copy_to_share.py em_datasets               # asks for the NIH password
+python3 em-labeled-datasets/scripts/copy_to_share.py em_datasets --check-only  # check again later
 ```
 
 ## Inventory (the "exactly what we have" CSV)

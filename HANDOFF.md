@@ -157,3 +157,11 @@ the header at the end show "read after download".
 - 2026-10-15: the user confirmed 13420 is OK, so all downloads are done. Google Doc rewritten at the user's request:
   only the status, the share copy steps (fsitgl-xfer03p, smbclient, check_share_copy.py), the WinSCP fallback, an
   empty Issues log and the open z-skipping item remain (older replies are in the doc's version history).
+- 2026-10-16: on xfer03p `which smbclient` finds nothing; `module avail | grep samba` only matches `sambamba` (a BAM
+  tool, not Samba); port 445 to the share is reachable. New `scripts/copy_to_share.py` (pip `smbprotocol`, no admin):
+  copies with N parallel files, skips files already on the share with the same size (re-run = resume), checks each
+  file's size after writing, ends with `check_share_copy.report()` (refactored out of check_share_copy.py). Tested
+  on the laptop with a fake smbclient mapped to a local folder (fresh copy, a short write retried, re-run skips all,
+  deleted + truncated files found by --check-only and repaired by a re-run). NOT tested against a real SMB server:
+  impacket's test server rejected smbprotocol's tree connect, and there is no Docker/WSL here. So the doc tells
+  the user to try a small `--check-only` run first (proves login and the share path) before the full copy.

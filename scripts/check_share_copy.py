@@ -50,18 +50,8 @@ def local_files(top):
     return out
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("local", help="the local folder that was copied (e.g. em_datasets)")
-    ap.add_argument("listing", help="file with the output of: smbclient ... -c 'cd <remote>; recurse on; ls'")
-    ap.add_argument("--remote-root", default="Share/2026_SummerStudents/datasets/em_datasets",
-                    help="the folder on the share that the listing was made in (default: %(default)s)")
-    a = ap.parse_args()
-    if not os.path.isdir(a.local):
-        sys.exit(f"ERROR: {a.local} is not a folder")
-    with open(a.listing, encoding="utf-8", errors="replace") as f:
-        remote = parse_listing(f, a.remote_root)
-    local = local_files(a.local)
+def report(local, remote, again):
+    """Print what differs between {path: size} dicts local and remote; 0 when all local files match, else 1."""
     gb = lambda d: sum(d.values()) / 1e9  # noqa: E731
     print(f"local: {len(local)} files, {gb(local):.3f} GB")
     print(f"share: {len(remote)} files, {gb(remote):.3f} GB")
@@ -82,8 +72,23 @@ def main():
     if not missing and not wrong:
         print("\nOK: every local file is on the share with the same size")
         return 0
-    print("\nNOT COMPLETE: run the same mput command again (it re-sends everything), then check again")
+    print(f"\nNOT COMPLETE: {again}")
     return 1
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("local", help="the local folder that was copied (e.g. em_datasets)")
+    ap.add_argument("listing", help="file with the output of: smbclient ... -c 'cd <remote>; recurse on; ls'")
+    ap.add_argument("--remote-root", default="Share/2026_SummerStudents/datasets/em_datasets",
+                    help="the folder on the share that the listing was made in (default: %(default)s)")
+    a = ap.parse_args()
+    if not os.path.isdir(a.local):
+        sys.exit(f"ERROR: {a.local} is not a folder")
+    with open(a.listing, encoding="utf-8", errors="replace") as f:
+        remote = parse_listing(f, a.remote_root)
+    return report(local_files(a.local), remote,
+                  "run the same mput command again (it re-sends everything), then check again")
 
 
 if __name__ == "__main__":
