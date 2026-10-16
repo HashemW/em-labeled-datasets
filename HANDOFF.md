@@ -165,7 +165,8 @@ the header at the end show "read after download".
   deleted + truncated files found by --check-only and repaired by a re-run). NOT tested against a real SMB server:
   impacket's test server rejected smbprotocol's tree connect, and there is no Docker/WSL here. So the doc tells
   the user to try a small `--check-only` run first (proves login and the share path) before the full copy.
-- First real copy (2026-10-16, default 4 workers): NOT COMPLETE, about 38,800 files missing. Only the tail of the
-  output was pasted (no error text). In the listed zarr chunk folders the file `0` arrived and `1`-`3` did not,
-  which suggests the parallel writes over one smbprotocol connection fail. The script now repeats errors after the
-  copy (a85df7e). Asked the user to re-run with `--workers 1 2>&1 | tee copy_log.txt`. If that works, make 1 the default.
+- 2026-10-16: the first pasted "NOT COMPLETE, 38,821 missing" was the step 2 `--check-only` run, i.e. the expected
+  result (login and share path work). My reading that chunk `0` files had arrived was wrong: those chunks are most
+  likely absent locally because zarr does not store all-zero chunks (write_empty_chunks default). The real copy then
+  started with `--workers 1` (38,821 files, 119.91 GB, 0 already on the share). 4 workers is untested on the real
+  share, not known to be broken. The script now also repeats copy errors before the final check (a85df7e).
